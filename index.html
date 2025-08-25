@@ -1,0 +1,1255 @@
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог ИИ-сервисов</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --secondary-color: #8b5cf6;
+            --accent-color: #ec4899;
+            --text-color: #1e293b;
+            --bg-color: #f8fafc;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --header-bg: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --card-bg: white;
+            --footer-bg: #1e293b;
+        }
+
+        .dark-theme {
+            --text-color: #f1f5f9;
+            --bg-color: #0f172a;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+            --header-bg: linear-gradient(135deg, #4338ca, #7c3aed);
+            --card-bg: #1e293b;
+            --footer-bg: #0f172a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background: var(--header-bg);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            height: 50px;
+            width: auto;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .header-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            opacity: 0;
+            animation: fadeIn 1s ease-out 0.3s forwards;
+        }
+
+        .header-title a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .header-title a:hover {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .theme-toggle {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Search and Filter Styles */
+        .controls-section {
+            background: var(--card-bg);
+            padding: 25px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .search-container {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .view-toggle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #f1f5f9;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dark-theme .view-toggle {
+            background: #334155;
+        }
+
+        .view-toggle:hover {
+            background: #e2e8f0;
+        }
+
+        .dark-theme .view-toggle:hover {
+            background: #475569;
+        }
+
+        .view-toggle i {
+            font-size: 18px;
+        }
+
+        .filters-container {
+            margin-top: 20px;
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .filters-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+
+        .clear-filters {
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .clear-filters:hover {
+            text-decoration: underline;
+        }
+
+        .categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .category-btn {
+            padding: 8px 16px;
+            background: #f1f5f9;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--text-color);
+        }
+
+        .dark-theme .category-btn {
+            background: #334155;
+        }
+
+        .category-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .dark-theme .category-btn:hover {
+            background: #475569;
+        }
+
+        .category-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Services Grid */
+        .services-section {
+            margin-bottom: 40px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-color);
+        }
+
+        .results-count {
+            color: #64748b;
+            font-size: 1rem;
+        }
+
+        .dark-theme .results-count {
+            color: #94a3b8;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .services-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .service-card, .service-list-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .service-card.visible, .service-list-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-card:hover, .service-list-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .dark-theme .service-card:hover, .dark-theme .service-list-item:hover {
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .card-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            opacity: 0.1;
+            z-index: 0;
+            background-image: radial-gradient(circle, currentColor 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .service-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+
+        .service-rating {
+            display: flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .rating-star {
+            color: #f59e0b;
+        }
+
+        .rating-value {
+            font-weight: 600;
+            margin-left: 5px;
+            color: #64748b;
+        }
+
+        .dark-theme .rating-value {
+            color: #94a3b8;
+        }
+
+        .service-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #64748b;
+        }
+
+        .dark-theme .meta-item {
+            color: #94a3b8;
+        }
+
+        .service-description {
+            margin-bottom: 20px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .dark-theme .service-description {
+            color: #cbd5e1;
+        }
+
+        .service-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+
+        .tag {
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary-color);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .dark-theme .tag {
+            background: rgba(99, 102, 241, 0.2);
+        }
+
+        .service-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+
+        .service-link:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--footer-bg);
+            color: white;
+            padding: 30px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .footer-text {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .footer-link {
+            color: #8b5cf6;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #a78bfa;
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+
+            .search-container {
+                flex-direction: column;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-card, .service-list-item {
+                padding: 20px;
+            }
+        }
+
+        /* Hidden class for animations */
+        .hidden {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-container">
+                    <img src="logo_tg_ch.png" alt="Логотип Нейрочеловек" class="logo" id="header-logo" onerror="this.style.display='none';">
+                    <h1 class="header-title">
+                        Каталог ИИ-сервисов для канала 
+                        <a href="https://t.me/neuro_man" target="_blank">«Нейрочеловек»</a>
+                    </h1>
+                </div>
+                <button class="theme-toggle" id="theme-toggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Controls Section -->
+    <section class="controls-section">
+        <div class="container">
+            <div class="search-container">
+                <input type="text" class="search-box" id="search-input" placeholder="Поиск по названию, сфере применения, профессии...">
+                <div class="view-toggle" id="view-toggle">
+                    <i class="fas fa-th-large"></i>
+                    <span>Сетка</span>
+                </div>
+            </div>
+
+            <div class="filters-container">
+                <div class="filters-header">
+                    <div class="filters-title">Фильтр по категориям</div>
+                    <button class="clear-filters" id="clear-filters">Сбросить фильтры</button>
+                </div>
+                <div class="categories" id="categories-container">
+                    <!-- Categories will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">ИИ-сервисы</h2>
+                <div class="results-count" id="results-count">Найдено: 0 сервисов</div>
+            </div>
+            <div class="services-grid" id="services-container">
+                <!-- Services will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-text">
+                    © 2025 • Создано для канала 
+                    <a href="https://t.me/neuro_man" target="_blank" class="footer-link">«Нейрочеловек»</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Full services data from CSV
+        const servicesData = [
+            { id: 1, name: "ChatGPT", type: "Сервис / Модель", category: "Чат-боты и виртуальные ассистенты", developer: "OpenAI", cost: "Бесплатно (GPT-3.5), от $20/мес (GPT-4)", availability: "Да", russianInterface: "Частично", platforms: "Веб, iOS, Android", application: "Генерация текста, обучение", audience: "Все специалисты", features: "Голосовой режим, анализ файлов", api: "Да", integrations: "Slack, Notion", rating: 10, url: "https://chat.openai.com" },
+            { id: 2, name: "Claude 3 Opus", type: "Модель / Сервис", category: "Чат-боты и виртуальные ассистенты", developer: "Anthropic", cost: "Бесплатно (ограниченно), Pro — $20/мес", availability: "Через VPN", russianInterface: "Нет", platforms: "Веб", application: "Юридические документы", audience: "Юристы, аналитики", features: "200K токенов, безопасность", api: "Да", integrations: "Google Drive", rating: 9.5, url: "https://claude.ai" },
+            { id: 3, name: "Google Gemini", type: "Сервис / Модель", category: "Чат-боты и виртуальные ассистенты", developer: "Google", cost: "Бесплатно, Advanced — $20/мес", availability: "Да", russianInterface: "Да", platforms: "Веб, Android", application: "Поиск, автоматизация", audience: "Пользователи Google", features: "Интеграция с Workspace", api: "Да", integrations: "Gmail, Docs", rating: 9, url: "https://gemini.google.com" },
+            { id: 4, name: "Perplexity AI", type: "Сервис", category: "Чат-боты и виртуальные ассистенты", developer: "Perplexity AI", cost: "Бесплатно, Pro — $20/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, iOS, Android", application: "Исследования", audience: "Учёные, журналисты", features: "Ответы с источниками", api: "Да", integrations: "—", rating: 8.5, url: "https://perplexity.ai" },
+            { id: 5, name: "Microsoft Copilot", type: "Сервис / Ассистент", category: "Чат-боты и виртуальные ассистенты", developer: "Microsoft", cost: "Бесплатно, Pro — $20/мес", availability: "Да", russianInterface: "Да", platforms: "Веб, Windows", application: "Office, программирование", audience: "Офисные работники", features: "Интеграция с Bing", api: "Да", integrations: "Teams, Outlook", rating: 9, url: "https://copilot.microsoft.com" },
+            { id: 6, name: "DeepSeek Chat", type: "Сервис / Модель", category: "Чат-боты и виртуальные ассистенты", developer: "DeepSeek", cost: "Бесплатно", availability: "Да", russianInterface: "Да", platforms: "Веб, iOS, Android", application: "Программирование", audience: "Разработчики", features: "128K контекста", api: "Да", integrations: "—", rating: 8.5, url: "https://chat.deepseek.com" },
+            { id: 7, name: "Qwen (Tongyi Qianwen)", type: "Модель / Сервис", category: "Чат-боты и виртуальные ассистенты", developer: "Alibaba Cloud", cost: "Бесплатно, API — платно", availability: "Через API", russianInterface: "Да", platforms: "Веб, API", application: "Бизнес-задачи", audience: "Предприниматели", features: "Поддержка китайского", api: "Да", integrations: "—", rating: 8, url: "https://qwen.ai" },
+            { id: 8, name: "HuggingChat", type: "Сервис / Платформа", category: "Чат-боты и виртуальные ассистенты", developer: "Hugging Face", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Эксперименты с моделями", audience: "Исследователи", features: "Llama, Mistral, Zephyr", api: "Да", integrations: "Transformers", rating: 7.5, url: "https://huggingface.co/chat" },
+            { id: 9, name: "Cohere Command", type: "Модель / API", category: "Чат-боты и виртуальные ассистенты", developer: "Cohere", cost: "Платный (беспл. тариф)", availability: "Да (через API)", russianInterface: "Нет", platforms: "API", application: "Чат-боты, SaaS", audience: "Разработчики", features: "Enterprise-оптимизация", api: "Да", integrations: "AWS, Slack", rating: 7, url: "https://cohere.com" },
+            { id: 10, name: "You.com", type: "Сервис", category: "Чат-боты и виртуальные ассистенты", developer: "You.com", cost: "Бесплатно, Pro — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Персонализированный поиск", audience: "Пользователи", features: "Встроенные приложения", api: "Да", integrations: "—", rating: 7.5, url: "https://you.com" },
+            { id: 11, name: "DALL·E 3 (через ChatGPT или API)", type: "Модель / Сервис", category: "Генерация изображений", developer: "OpenAI", cost: "Через ChatGPT Plus или API", availability: "Да (через ChatGPT)", russianInterface: "Частично", platforms: "Веб, API", application: "Визуализация идей, презентации", audience: "Маркетологи, копирайтеры", features: "Точное следование промпту, интеграция с текстом", api: "Да", integrations: "—", rating: 9, url: "https://openai.com/dall-e" },
+            { id: 12, name: "Stable Diffusion (включая SDXL)", type: "Модель / Платформа", category: "Генерация изображений", developer: "Stability AI", cost: "Бесплатно (open-source), платные облака", availability: "Да (локально)", russianInterface: "Нет (внешние оболочки могут иметь)", platforms: "Веб (DreamStudio), Win, Mac, Linux", application: "Генерация, кастомизация", audience: "Разработчики, дизайнеры", features: "Полный контроль, запуск локально", api: "Да", integrations: "—", rating: 9, url: "https://stability.ai" },
+            { id: 13, name: "Craiyon (ранее DALL·E Mini)", type: "Сервис", category: "Генерация изображений", developer: "—", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Эксперименты, мемы", audience: "Новички, дети", features: "Простота, низкое качество", api: "Нет", integrations: "—", rating: 6, url: "https://craiyon.com" },
+            { id: 14, name: "Artbreeder", type: "Сервис", category: "Генерация изображений", developer: "Artbreeder Inc.", cost: "Бесплатно, Pro — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Портреты, арт", audience: "Художники, фотографы", features: "Смешивание изображений, генерация лиц", api: "Да", integrations: "—", rating: 7, url: "https://artbreeder.com" },
+            { id: 15, name: "Dream by Wombo", type: "Мобильное приложение", category: "Генерация изображений", developer: "Wombo AI", cost: "Бесплатно, премиум — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "iOS, Android, веб", application: "Арт, развлечения", audience: "Мобильные пользователи", features: "Простое приложение, стили", api: "Нет", integrations: "—", rating: 7, url: "https://wombo.art" },
+            { id: 16, name: "FaceMagic", type: "Сервис / Замена лица", category: "Генерация изображений", developer: "Изображения, видео", cost: "Бесплатно (ограниченно), от $9/мес", availability: "Да", russianInterface: "Да", platforms: "Веб, Android", application: "Фото, развлечения", audience: "Пользователи", features: "Замена лица в фото/видео", api: "Нет", integrations: "—", rating: 6.5, url: "https://facemagic.ai" },
+            { id: 17, name: "Remini", type: "Приложение / Улучшение фото", category: "Генерация изображений", developer: "Bending Spoons", cost: "Бесплатно, подписка — $4/мес", availability: "Да", russianInterface: "Да", platforms: "iOS, Android", application: "Фото, портреты", audience: "Пользователи", features: "Улучшение качества фото, анимация", api: "Да", integrations: "—", rating: 7, url: "https://remini.ai" },
+            { id: 18, name: "Lensa AI", type: "Приложение / Аватары", category: "Генерация изображений", developer: "Prisma Labs", cost: "$3.99/мес", availability: "Да", russianInterface: "Да", platforms: "iOS, Android", application: "Аватары, соцсети", audience: "Пользователи", features: "Генерация \"магических аватаров\"", api: "Нет", integrations: "—", rating: 8, url: "https://lensa-ai.com" },
+            { id: 19, name: "Leonardo.Ai", type: "Сервис", category: "Генерация изображений", developer: "Leonardo.Ai", cost: "Бесплатно (ограниченно), от $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Игры, дизайн, NFT", audience: "Геймдизайнеры, 3D-художники", features: "Обучение своих моделей, генерация текстур", api: "Да", integrations: "—", rating: 8, url: "https://leonardo.ai" },
+            { id: 20, name: "Playground AI", type: "Сервис", category: "Генерация изображений", developer: "Playground AI", cost: "Бесплатно (1000 генераций/день), Pro — $15/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Дизайн, маркетинг", audience: "Контент-мейкеры", features: "Много моделей, редактирование изображений", api: "Да", integrations: "—", rating: 8, url: "https://playgroundai.com" },
+            { id: 21, name: "Kaiber", type: "Сервис", category: "Видео и анимация", developer: "Kaiber", cost: "Бесплатно (30 сек), от $5/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Музыкальные видео, арт", audience: "Музыканты, артисты", features: "Синхронизация с музыкой, стиль", api: "Да", integrations: "—", rating: 7, url: "https://kaiber.ai" },
+            { id: 22, name: "Synthesia", type: "Сервис", category: "Видео и анимация", developer: "Synthesia Ltd", cost: "От $22/мес (бесплатного нет)", availability: "Да (через API)", russianInterface: "Нет", platforms: "Веб", application: "Обучающие видео, корпоративные ролики", audience: "HR, маркетологи", features: "Генерация видео с цифровыми людьми", api: "Да", integrations: "—", rating: 8.5, url: "https://synthesia.io" },
+            { id: 23, name: "HeyGen", type: "Сервис", category: "Видео и анимация", developer: "HeyGen", cost: "Бесплатно (1 мин), от $24/мес", availability: "Да", russianInterface: "Да", platforms: "Веб", application: "Презентации, объяснения", audience: "Менеджеры, преподаватели", features: "Поддержка русского голоса, аватары", api: "Да", integrations: "Zoom, Google Meet", rating: 8, url: "https://heygen.com" },
+            { id: 24, name: "Descript", type: "Сервис", category: "Аудио и музыка", developer: "Descript", cost: "Бесплатно, Pro — $12/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, Win, Mac", application: "Редактирование подкастов", audience: "Подкастеры", features: "Удаление \"э-э\", монтаж по тексту", api: "Да", integrations: "Zoom, Google Drive", rating: 8.5, url: "https://descript.com" },
+            { id: 25, name: "Trint", type: "Сервис", category: "Аудио и музыка", developer: "Trint", cost: "Бесплатно (15 мин), от $40/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Интервью, исследования", audience: "Журналисты", features: "Автоматические таймкоды", api: "Да", integrations: "Dropbox, Slack", rating: 8, url: "https://trint.com" },
+            { id: 26, name: "Happy Scribe", type: "Сервис", category: "Аудио и музыка", developer: "Happy Scribe", cost: "Бесплатно (10 мин), от $15/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Видео с субтитрами", audience: "Блогеры", features: "Экспорт в SRT, VTT", api: "Да", integrations: "YouTube, Vimeo", rating: 7, url: "https://happyscribe.com" },
+            { id: 27, name: "AssemblyAI", type: "API / Сервис", category: "Аудио и музыка", developer: "AssemblyAI", cost: "Бесплатно (5 час), от $0.00026/сек", availability: "Да", russianInterface: "Нет", platforms: "API", application: "Анализ звонков", audience: "Разработчики", features: "Тематический анализ, PII-редакция", api: "Да", integrations: "Twilio, AWS", rating: 8, url: "https://assemblyai.com" },
+            { id: 28, name: "Notta", type: "Сервис", category: "Аудио и музыка", developer: "Notta", cost: "Бесплатно (90 мин), от $8.25/мес", availability: "Да", russianInterface: "Да", platforms: "Веб, iOS, Android", application: "Встречи, интервью", audience: "HR", features: "Запись Zoom, Teams", api: "Да", integrations: "Google Calendar", rating: 7.5, url: "https://notta.ai" },
+            { id: 29, name: "SubtitleBee", type: "Сервис", category: "Аудио и музыка", developer: "SubtitleBee", cost: "Бесплатно, Pro — $9/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Соцсети, YouTube", audience: "Блогеры", features: "Экспорт в SRT, VTT", api: "Нет", integrations: "—", rating: 6, url: "https://subtitlebee.com" },
+            { id: 30, name: "Audo.ai", type: "Сервис", category: "Аудио и музыка", developer: "Audo", cost: "Бесплатно (5 файлов), от $12/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Подкасты, интервью", audience: "Подкастеры", features: "Удаление пауз, шумов", api: "Да", integrations: "—", rating: 6.5, url: "https://audo.ai" },
+            { id: 31, name: "Temi", type: "Сервис", category: "Аудио и музыка", developer: "Temi", cost: "$0.25/мин", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Юристы, студенты", audience: "Юристы", features: "Точность 95%, экспорт в DOCX", api: "Нет", integrations: "—", rating: 7, url: "https://temi.com" },
+            { id: 32, name: "Verbit", type: "Сервис", category: "Аудио и музыка", developer: "Verbit", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Медицина, юриспруденция", audience: "Юристы, врачи", features: "Человеческая проверка, HIPAA", api: "Да", integrations: "EHR, CRM", rating: 7.5, url: "https://verbit.ai" },
+            { id: 33, name: "Noted", type: "Приложение", category: "Аудио и музыка", developer: "Noted", cost: "Бесплатно, Pro — $5/мес", availability: "Да", russianInterface: "Нет", platforms: "iOS, Android", application: "Личные заметки", audience: "Все пользователи", features: "Синхронизация с календарём", api: "Да", integrations: "Google Calendar", rating: 6, url: "https://noted.app" },
+            { id: 34, name: "ElevenLabs", type: "Сервис", category: "Аудио и музыка", developer: "ElevenLabs", cost: "Бесплатно (10k символов), от $5/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, API", application: "Озвучка, подкасты, видео", audience: "Видеомейкеры, переводчики", features: "Высокое качество голоса, кастомные голоса", api: "Да", integrations: "Zapier, Descript", rating: 9, url: "https://elevenlabs.io" },
+            { id: 35, name: "Murf.ai", type: "Сервис", category: "Аудио и музыка", developer: "Murf AI", cost: "Бесплатно (4 мин), от $29/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Обучающие материалы, презентации", audience: "Преподаватели, HR", features: "120+ голосов, редактор пауз", api: "Да", integrations: "—", rating: 7.5, url: "https://murf.ai" },
+            { id: 36, name: "VEED.io", type: "Сервис", category: "Видео и анимация", developer: "VEED", cost: "Бесплатно, Pro — $18/мес", availability: "Да", russianInterface: "Да", platforms: "Веб", application: "YouTube, TikTok", audience: "Контент-мейкеры", features: "Автоперевод субтитров", api: "Да", integrations: "—", rating: 7, url: "https://veed.io" },
+            { id: 37, name: "Dubverse", type: "Сервис", category: "Видео и анимация", developer: "Dubverse", cost: "Бесплатно (3 мин), от $20/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Локализация видео", audience: "Маркетологи", features: "Голосовые актёры, 50+ языков", api: "Да", integrations: "—", rating: 7, url: "https://dubverse.ai" },
+            { id: 38, name: "Rask.ai", type: "Сервис", category: "Видео и анимация", developer: "Rask", cost: "Бесплатно (5 мин), от $25/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "YouTube, обучение", audience: "Блогеры", features: "Удаление фоновых шумов", api: "Да", integrations: "—", rating: 6.5, url: "https://rask.ai" },
+            { id: 39, name: "GitHub Copilot", type: "Сервис / ИИ-ассистент", category: "Код и веб-дизайн", developer: "GitHub + OpenAI", cost: "$10/мес, бесплатно для студентов", availability: "Да", russianInterface: "Нет", platforms: "VS Code, JetBrains, CLI", application: "Программирование", audience: "Разработчики", features: "Автодополнение кода в реальном времени", api: "Да", integrations: "GitHub, IDE", rating: 9.5, url: "https://github.com/features/copilot" },
+            { id: 40, name: "Tabnine", type: "Сервис", category: "Код и веб-дизайн", developer: "Tabnine", cost: "Бесплатно, Pro — $12/мес", availability: "Да", russianInterface: "Нет", platforms: "VS Code, IntelliJ, др.", application: "Программирование", audience: "DevOps, инженеры", features: "Локальное исполнение, приватность", api: "Да", integrations: "—", rating: 8, url: "https://tabnine.com" },
+            { id: 41, name: "10Web", type: "Сервис", category: "Код и веб-дизайн", developer: "10Web", cost: "Бесплатно, Pro — $20/мес", availability: "Да", russianInterface: "Да", platforms: "Веб", application: "Сайты, блоги", audience: "Веб-мастера, агентства", features: "ИИ-генерация + хостинг", api: "Да", integrations: "WordPress", rating: 7, url: "https://10web.io" },
+            { id: 42, name: "Anima", type: "Сервис", category: "Код и веб-дизайн", developer: "Anima", cost: "Бесплатно, Pro — $12/мес", availability: "Да", russianInterface: "Нет", platforms: "Figma, веб", application: "UI/UX, вёрстка", audience: "Дизайнеры, фронтендеры", features: "Автоматическая вёрстка из Figma", api: "Да", integrations: "Figma, React, Vue", rating: 7, url: "https://animaapp.com" },
+            { id: 43, name: "Microsoft Designer (для презентаций)", type: "Инструмент", category: "Презентации и визуализация", developer: "Microsoft", cost: "Бесплатно (в M365)", availability: "Да", russianInterface: "Да", platforms: "Веб", application: "Быстрый дизайн", audience: "Все пользователи", features: "Генерация фонов через DALL·E", api: "Да", integrations: "PowerPoint", rating: 7, url: "https://designer.microsoft.com" },
+            { id: 44, name: "Tome", type: "Сервис", category: "Презентации и визуализация", developer: "Tome", cost: "Бесплатно, Pro — $8/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Стартапы, инвесторы", audience: "Предприниматели", features: "Генерация презентаций по промпту", api: "Да", integrations: "Figma, Notion", rating: 7.5, url: "https://tome.app" },
+            { id: 45, name: "Beautiful.ai", type: "Сервис", category: "Презентации и визуализация", developer: "Beautiful.ai", cost: "Бесплатно, Pro — $12/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Бизнес-презентации", audience: "Маркетологи, PM", features: "Адаптивный дизайн слайдов", api: "Да", integrations: "—", rating: 7, url: "https://beautiful.ai" },
+            { id: 46, name: "Gamma", type: "Сервис", category: "Презентации и визуализация", developer: "Gamma", cost: "Бесплатно, Pro — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Быстрые презентации", audience: "Все пользователи", features: "Генерация за 30 секунд", api: "Да", integrations: "Notion, Google Drive", rating: 8, url: "https://gamma.app" },
+            { id: 47, name: "SlidesAI", type: "Надстройка", category: "Презентации и визуализация", developer: "SlidesAI", cost: "$10/мес", availability: "Да", russianInterface: "Нет", platforms: "Google Slides", application: "Автоматизация презентаций", audience: "Преподаватели", features: "Перевод текста в слайды за 1 клик", api: "Нет", integrations: "Google Slides", rating: 7, url: "https://slidesai.io" },
+            { id: 48, name: "Presentations.ai", type: "Сервис", category: "Презентации и визуализация", developer: "Presentations.ai", cost: "$29/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Инвестиционные мемо", audience: "Стартапы", features: "Автогенерация из PitchBook", api: "Да", integrations: "—", rating: 6.5, url: "https://presentations.ai" },
+            { id: 49, name: "Pitch", type: "Сервис", category: "Презентации и визуализация", developer: "Pitch", cost: "Бесплатно, Pro — $9/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Командная работа", audience: "PM, дизайнеры", features: "Реальные-time редактирование", api: "Да", integrations: "Slack, Google Drive", rating: 7.5, url: "https://pitch.com" },
+            { id: 50, name: "AhaSlides", type: "Сервис", category: "Презентации и визуализация", developer: "AhaSlides", cost: "Бесплатно, Pro — $14/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Лекции, воркшопы", audience: "Преподаватели", features: "Голосования, квизы в реальном времени", api: "Да", integrations: "Zoom, Google Meet", rating: 6.5, url: "https://ahaslides.com" },
+            { id: 51, name: "FlowVella", type: "Приложение", category: "Презентации и визуализация", developer: "FlowVella", cost: "Бесплатно, Pro — $8/мес", availability: "Да", russianInterface: "Нет", platforms: "Win, Mac", application: "Продажи, переговоры", audience: "Сейлз-менеджеры", features: "Офлайн-просмотр, PDF-экспорт", api: "Да", integrations: "—", rating: 6, url: "https://flowvella.com" },
+            { id: 52, name: "Strory", type: "Сервис", category: "Презентации и визуализация", developer: "Strory", cost: "$29/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Продажи, сторителлинг", audience: "Маркетологи", features: "Видео-презентации с интерактивом", api: "Да", integrations: "—", rating: 6, url: "https://strory.ai" },
+            { id: 53, name: "SlideDog", type: "Приложение", category: "Презентации и визуализация", developer: "SlideDog", cost: "Бесплатно, Pro — $15/мес", availability: "Да", russianInterface: "Нет", platforms: "Win, Mac", application: "Конференции", audience: "Организаторы", features: "Поддержка PPT, PDF, видео в одном потоке", api: "Нет", integrations: "—", rating: 6.5, url: "https://slidedog.com" },
+            { id: 54, name: "Kampyle", type: "Сервис", category: "Презентации и визуализация", developer: "Kampyle", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Продуктовые презентации", audience: "PM", features: "Сбор отзывов прямо в презентации", api: "Да", integrations: "—", rating: 5.5, url: "https://kampyle.com" },
+            { id: 55, name: "Simplified", type: "Сервис", category: "Презентации и визуализация", developer: "Simplified", cost: "Бесплатно, Pro — $12/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Быстрый контент", audience: "Фрилансеры", features: "Шаблоны, совместная работа", api: "Да", integrations: "—", rating: 6.5, url: "https://simplified.com" },
+            { id: 56, name: "Preseee", type: "Сервис", category: "Презентации и визуализация", developer: "Preseee", cost: "Бесплатно, Pro — $9/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Онлайн-презентации", audience: "Удалённые команды", features: "Управление через Slack/Discord", api: "Да", integrations: "Slack, Discord", rating: 5.5, url: "https://preseee.com" },
+            { id: 57, name: "PitchGrade", type: "Сервис", category: "Презентации и визуализация", developer: "PitchGrade", cost: "$49/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Инвестиционные презентации", audience: "Стартапы", features: "Оценка качества слайдов ИИ", api: "Нет", integrations: "—", rating: 5, url: "https://pitchgrade.com" },
+            { id: 58, name: "Asana + AI", type: "Сервис / Управление проектами", category: "Управление задачами и проектами", developer: "Asana", cost: "Бесплатно, Premium — $10.99/мес", availability: "Да", russianInterface: "Да", platforms: "Веб, iOS, Android", application: "Проекты, команды", audience: "PM, маркетологи", features: "ИИ-создание задач, обзор прогресса", api: "Да", integrations: "Slack, Gmail, Microsoft Teams", rating: 8.5, url: "https://asana.com" },
+            { id: 59, name: "Any.do", type: "Приложение / Планирование", category: "Управление задачами и проектами", developer: "Any.do", cost: "Бесплатно, Premium — $3/мес", availability: "Да", russianInterface: "Да", platforms: "iOS, Android, веб", application: "Личная продуктивность", audience: "Пользователи iPhone", features: "Голосовые напоминания, ИИ-подсказки", api: "Да", integrations: "Google, Siri", rating: 7, url: "https://any.do" },
+            { id: 60, name: "Sunsama", type: "Сервис / Ежедневный план", category: "Управление задачами и проектами", developer: "Sunsama", cost: "$14/мес, бесплатного нет", availability: "Да", russianInterface: "Нет", platforms: "Веб, Gmail, Outlook", application: "Ежедневная продуктивность", audience: "Профессионалы", features: "Ритуал утреннего планирования", api: "Да", integrations: "Google Calendar, Todoist", rating: 6.5, url: "https://sunsama.com" },
+            { id: 61, name: "Trello + Butler (ИИ)", type: "Сервис / Доски задач", category: "Управление задачами и проектами", developer: "Atlassian", cost: "Бесплатно, Premium — $10/мес", availability: "Да", russianInterface: "Да", platforms: "Веб, iOS, Android", application: "Визуальное управление", audience: "Новички, PM", features: "Карточки, автоматизация, ИИ (Butler)", api: "Да", integrations: "Slack, Google Drive", rating: 8, url: "https://trello.com" },
+            { id: 62, name: "Monica.im", type: "Расширение / ИИ-ассистент", category: "Персональные ИИ-ассистенты", developer: "Monica", cost: "Бесплатно, Pro — $10/мес", availability: "Да", russianInterface: "Да", platforms: "Расширение (Chrome), веб", application: "Повседневная помощь", audience: "Все пользователи", features: "ИИ в браузере, работа с Gmail, Twitter", api: "Да", integrations: "—", rating: 7, url: "https://monica.im" },
+            { id: 63, name: "Fireflies.ai", type: "Сервис / Запись встреч", category: "Персональные ИИ-ассистенты", developer: "Fireflies", cost: "Бесплатно, Pro — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, Zoom, Teams", application: "Встречи, митинги", audience: "Менеджеры, HR", features: "Автозапись, транскрибация, анализ", api: "Да", integrations: "Zoom, Google Meet, Slack", rating: 7.5, url: "https://fireflies.ai" },
+            { id: 64, name: "Otter.ai", type: "Сервис / Транскрибация", category: "Персональные ИИ-ассистенты", developer: "Otter.ai", cost: "Бесплатно (300 мин), Pro — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, iOS, Android", application: "Обучение, встречи", audience: "Преподаватели, студенты", features: "Запись голоса, ИИ-суммаризация", api: "Да", integrations: "Zoom, Google Meet", rating: 8, url: "https://otter.ai" },
+            { id: 65, name: "Socratic by Google", type: "Приложение / Помощь в учёбе", category: "Образование и обучение", developer: "Google", cost: "Бесплатно", availability: "Да", russianInterface: "Да", platforms: "Android, iOS", application: "Школьная программа", audience: "Ученики", features: "Фото вопроса → объяснение", api: "Нет", integrations: "Google Lens", rating: 7, url: "https://socratic.org" },
+            { id: 66, name: "Eduflow", type: "Платформа / Обучение", category: "Образование и обучение", developer: "Eduflow", cost: "Бесплатно (до 50 студентов), Pro — $3/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Корпоративное обучение", audience: "HR, тренеры", features: "ИИ-оценка ответов, обратная связь", api: "Да", integrations: "LMS, Zoom", rating: 6.5, url: "https://eduflow.com" },
+            { id: 67, name: "Cognii", type: "Сервис / Виртуальный ассистент", category: "Образование и обучение", developer: "Cognii", cost: "По запросу (вузы)", availability: "Ограничен", russianInterface: "Нет", platforms: "Веб", application: "Высшее образование", audience: "Университеты", features: "ИИ-оценивание эссе, диалоговое обучение", api: "Да", integrations: "Canvas, Blackboard", rating: 6, url: "https://cognii.com" },
+            { id: 68, name: "Knowt", type: "Сервис / Флеш-карты", category: "Образование и обучение", developer: "Knowt", cost: "Бесплатно, Pro — $3.99/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, приложения", application: "Подготовка к экзаменам", audience: "Студенты", features: "Генерация карточек из заметок", api: "Да", integrations: "—", rating: 7, url: "https://knowt.io" },
+            { id: 69, name: "Headspace", type: "Приложение / Сервис", category: "Здоровье и фитнес", developer: "Headspace Inc.", cost: "Бесплатно (ограниченно), $12.99/мес", availability: "Да", russianInterface: "Да", platforms: "iOS, Android, веб", application: "Ментальное здоровье", audience: "Все пользователи", features: "Персонализированные рекомендации, ИИ-анализ прогресса", api: "Да", integrations: "Apple Health, Google Fit", rating: 9, url: "https://headspace.com" },
+            { id: 70, name: "Calm", type: "Приложение / Сервис", category: "Здоровье и фитнес", developer: "Calm.com", cost: "Бесплатно (ограниченно), $14.99/мес", availability: "Да", russianInterface: "Да", platforms: "iOS, Android, веб", application: "Стресс, бессонница", audience: "Начинающие в медитации", features: "Персонализированные рекомендации, ИИ-анализ прогресса", api: "Да", integrations: "Apple Health, Google Fit", rating: 9.5, url: "https://calm.com" },
+            { id: 71, name: "Fabulous", type: "Приложение / Сервис", category: "Здоровье и фитнес", developer: "Fabulous Co.", cost: "Бесплатно (ограниченно), $34.99/год", availability: "Да", russianInterface: "Да", platforms: "iOS, Android", application: "Утренние ритуалы, энергия", audience: "Занятые профессионалы", features: "ИИ-планировщик привычек, геймификация", api: "Нет", integrations: "Google Calendar, Apple Health", rating: 8, url: "https://fabulous.com" },
+            { id: 72, name: "Sleep Cycle", type: "Приложение", category: "Здоровье и фитнес", developer: "Sleep Cycle AB", cost: "Бесплатно (ограниченно), $39.99/год", availability: "Да", russianInterface: "Да", platforms: "iOS, Android", application: "Качество сна", audience: "Люди с нарушениями сна", features: "ИИ-анализ фаз сна, умный будильник", api: "Да", integrations: "Apple Health, Withings", rating: 8.5, url: "https://sleepcycle.com" },
+            { id: 73, name: "Woebot", type: "Приложение / Чат-бот", category: "Здоровье и фитнес", developer: "Woebot Labs", cost: "Бесплатно (ограниченно), $39/мес", availability: "Да (через приложение)", russianInterface: "Нет", platforms: "iOS, Android", application: "Депрессия, стресс", audience: "Взрослые", features: "Диалог на основе CBT, научная база", api: "Да", integrations: "—", rating: 7.5, url: "https://woebot.io" },
+            { id: 74, name: "Noom", type: "Приложение / Сервис", category: "Здоровье и фитнес", developer: "Noom Inc.", cost: "Бесплатно (тест), $59/мес", availability: "Да", russianInterface: "Да", platforms: "iOS, Android", application: "Похудение, мотивация", audience: "Люди с избыточным весом", features: "Персональный коуч, ИИ-анализ пищи", api: "Да", integrations: "Fitbit, Google Fit", rating: 8.5, url: "https://noom.com" },
+            { id: 75, name: "Koa Health", type: "Платформа / Сервис", category: "Медицинские ИИ-сервисы", developer: "Koa Health", cost: "По запросу (корпоративный)", availability: "Да", russianInterface: "Нет", platforms: "Веб, iOS, Android", application: "Корпоративное здоровье", audience: "HR-отделы, компании", features: "Индивидуальные программы, аналитика команды", api: "Да", integrations: "HR-системы", rating: 6.5, url: "https://koa.health" },
+            { id: 76, name: "Happify", type: "Приложение / Сервис", category: "Медицинские ИИ-сервисы", developer: "Happify", cost: "Бесплатно (ограниченно), $14.99/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, iOS, Android", application: "Снижение стресса", audience: "Профессионалы", features: "ИИ-подбор упражнений, научные методики", api: "Да", integrations: "—", rating: 7, url: "https://happify.com" },
+            { id: 77, name: "Ada Health", type: "Приложение", category: "Медицинские ИИ-сервисы", developer: "Ada", cost: "Бесплатно", availability: "Да", russianInterface: "Да", platforms: "iOS, Android", application: "Самодиагностика", audience: "Пациенты", features: "Диагностика по симптомам, рекомендации", api: "Да", integrations: "—", rating: 7.5, url: "https://ada.com" },
+            { id: 78, name: "K Health", type: "Приложение", category: "Медицинские ИИ-сервисы", developer: "K Health", cost: "$24/мес", availability: "Да (через VPN)", russianInterface: "Нет", platforms: "iOS, Android", application: "Консультации, диагностика", audience: "Пациенты", features: "База данных с 5 млрд записей", api: "Да", integrations: "—", rating: 7, url: "https://khealth.com" },
+            { id: 79, name: "PathAI", type: "Сервис", category: "Медицинские ИИ-сервисы", developer: "PathAI", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Диагностика рака", audience: "Врачи", features: "Анализ биопсий с ИИ", api: "Да", integrations: "EHR системы", rating: 6.5, url: "https://pathai.com" },
+            { id: 80, name: "Olive", type: "Платформа", category: "Медицинские ИИ-сервисы", developer: "Olive", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Автоматизация клиник", audience: "Менеджеры клиник", features: "Запись пациентов, обработка счетов", api: "Да", integrations: "Epic, Cerner", rating: 7, url: "https://Olive AI" },
+            { id: 81, name: "Suki AI", type: "Приложение", category: "Медицинские ИИ-сервисы", developer: "Suki", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "iOS, Android", application: "Медицинские записи", audience: "Врачи", features: "Голосовой ввод диагнозов в EHR", api: "Да", integrations: "Epic, Athenahealth", rating: 6.5, url: "https://suki.ai" },
+            { id: 82, name: "Lawgeex", type: "Сервис", category: "Юридические ИИ-сервисы", developer: "Lawgeex", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Проверка договоров", audience: "Юристы", features: "Автоматическая проверка на риски", api: "Да", integrations: "Salesforce, DocuSign", rating: 7, url: "https://lawgeex.com" },
+            { id: 83, name: "DoNotPay", type: "Приложение", category: "Юридические ИИ-сервисы", developer: "DoNotPay", cost: "$36/год", availability: "Да (через VPN)", russianInterface: "Нет", platforms: "Веб, iOS, Android", application: "Автоштрафы, споры", audience: "Все пользователи", features: "«Робот-адвокат», генерация претензий", api: "Да", integrations: "—", rating: 7.5, url: "https://donotpay.com" },
+            { id: 84, name: "CaseText", type: "Сервис", category: "Юридические ИИ-сервисы", developer: "CaseText", cost: "По запросу", availability: "Да (через VPN)", russianInterface: "Нет", platforms: "Веб", application: "Юридические исследования", audience: "Адвокаты", features: "Аналогия по прецедентам", api: "Да", integrations: "Clio, MyCase", rating: 6.5, url: "https://casetext.com" },
+            { id: 85, name: "Lexion", type: "Сервис", category: "Юридические ИИ-сервисы", developer: "Lexion", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Управление договорами", audience: "Юрисконсульты", features: "Отслеживание сроков, уведомления", api: "Да", integrations: "Salesforce, Google Workspace", rating: 6, url: "https://lexion.ai" },
+            { id: 86, name: "Akkio", type: "Сервис", category: "Анализ данных и BI", developer: "Akkio", cost: "Бесплатно, Pro — $50/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Прогнозирование продаж", audience: "Маркетологи", features: "Нет кода, drag-and-drop", api: "Да", integrations: "Salesforce, HubSpot", rating: 7.5, url: "https://akkio.com" },
+            { id: 87, name: "Julius AI", type: "Сервис", category: "Анализ данных и BI", developer: "Julius", cost: "Бесплатно, Pro — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Финансы, отчёты", audience: "Финансисты", features: "Задавайте вопросы таблицам на естественном языке", api: "Да", integrations: "Google Sheets, Excel", rating: 8, url: "https://julius.ai" },
+            { id: 88, name: "ForwardAI", type: "Сервис", category: "Анализ данных и BI", developer: "ForwardAI", cost: "Бесплатно, Pro — $49/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "SaaS, стартапы", audience: "Предприниматели", features: "Прогнозирование LTV, удержания", api: "Да", integrations: "Stripe, QuickBooks", rating: 7, url: "https://forwardai.com" },
+            { id: 89, name: "Tally", type: "Приложение", category: "Финансовые ИИ-сервисы", developer: "Tally", cost: "Бесплатно (только США)", availability: "Нет", russianInterface: "Нет", platforms: "iOS, Android", application: "Кредитный долг", audience: "Жители США", features: "Автоматическая рефинансировка долгов", api: "Нет", integrations: "—", rating: 5, url: "https://tally.one" },
+            { id: 90, name: "Sentieo", type: "Сервис", category: "Финансовые ИИ-сервисы", developer: "Sentieo", cost: "По запросу", availability: "Да (через VPN)", russianInterface: "Нет", platforms: "Веб", application: "Инвестирование", audience: "Аналитики", features: "Поиск по 10-K, 10-Q, транскриптам", api: "Да", integrations: "—", rating: 7, url: "https://sentieo.com" },
+            { id: 91, name: "Watershed", type: "Сервис", category: "Экология и устойчивое развитие", developer: "Watershed", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Корпоративная экология", audience: "ESG-менеджеры", features: "Автоматизация отчётности по выбросам", api: "Да", integrations: "QuickBooks, Xero", rating: 7, url: "https://watershed.com" },
+            { id: 92, name: "Greenly", type: "Приложение", category: "Экология и устойчивое развитие", developer: "Greenly", cost: "Бесплатно, Pro — $5/мес", availability: "Да", russianInterface: "Нет", platforms: "iOS, Android", application: "Личная экология", audience: "Все пользователи", features: "Анализ трат на выбросы CO2", api: "Нет", integrations: "—", rating: 6.5, url: "https://greenly.earth" },
+            { id: 93, name: "WasteHero", type: "Сервис", category: "Экология и устойчивое развитие", developer: "WasteHero", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Городское хозяйство", audience: "Муниципалитеты", features: "Оптимизация графика вывоза мусора", api: "Да", integrations: "IoT-датчики", rating: 6, url: "https://wastehero.io" },
+            { id: 94, name: "Persefoni", type: "Сервис", category: "Экология и устойчивое развитие", developer: "Persefoni", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "ESG-аудит", audience: "Аудиторы", features: "Сертифицированные расчёты выбросов", api: "Да", integrations: "—", rating: 7, url: "https://persefoni.com" },
+            { id: 95, name: "GreenToken", type: "Сервис", category: "Экология и устойчивое развитие", developer: "SAP", cost: "Входит в SAP Ariba", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Supply Chain", audience: "Производители", features: "Проверка происхождения сырья (кофе, пальмовое масло)", api: "Да", integrations: "SAP ERP", rating: 6.5, url: "https://greentoken.by.sap.com" },
+            { id: 96, name: "EarthBanc", type: "Платформа", category: "Экология и устойчивое развитие", developer: "EarthBanc", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Экологические проекты", audience: "НКО", features: "Учёт выбросов через блокчейн и спутники", api: "Да", integrations: "—", rating: 5.5, url: "https://earthbanc.io" },
+            { id: 97, name: "ClimateAi", type: "Сервис", category: "Экология и устойчивое развитие", developer: "ClimateAi", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Сельское хозяйство, логистика", audience: "Фермеры, логисты", features: "Прогнозы погоды для планирования урожая", api: "Да", integrations: "—", rating: 7, url: "https://climate.ai" },
+            { id: 98, name: "Tomorrow.io", type: "Сервис", category: "Экология и устойчивое развитие", developer: "Tomorrow.io", cost: "Бесплатно (ограниченно), Enterprise — по запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб, API", application: "Прогнозы для бизнеса", audience: "Логистика, ритейл", features: "Hyperlocal-погода, анализ рисков", api: "Да", integrations: "Salesforce, SAP", rating: 8, url: "https://tomorrow.io" },
+            { id: 99, name: "Patch", type: "Платформа", category: "Экология и устойчивое развитие", developer: "Patch", cost: "Бесплатно, Pro — $99/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "ESG-отчётность", audience: "Компании", features: "Расчёт выбросов, покупка углеродных кредитов", api: "Да", integrations: "Shopify, Stripe", rating: 7.5, url: "https://patch.io" },
+            { id: 100, name: "Sustain.Life", type: "Платформа", category: "Экология и устойчивое развитие", developer: "Sustain.Life", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Устойчивое развитие", audience: "HR, корпорации", features: "Оценка углеродного следа сотрудников", api: "Да", integrations: "—", rating: 6.5, url: "https://sustain.life" },
+            { id: 101, name: "Carbon Minds", type: "Сервис", category: "Экология и устойчивое развитие", developer: "Carbon Minds", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Промышленность", audience: "Инженеры", features: "Снижение энергозатрат на производстве", api: "Да", integrations: "Siemens, SCADA", rating: 6, url: "https://carbonminds.com" },
+            { id: 102, name: "Satellite Insight", type: "Сервис", category: "Экология и устойчивое развитие", developer: "Orbital Insight", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Экология, сельское хозяйство", audience: "Учёные", features: "Мониторинг лесов, водоёмов через спутники", api: "Да", integrations: "—", rating: 7, url: "https://orbitalinsight.com" },
+            { id: 103, name: "Ecolytiq", type: "API / Сервис", category: "Экология и устойчивое развитие", developer: "Ecolytiq", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "API", application: "Банки, финтех", audience: "Клиенты банков", features: "Отображение экологического следа при оплате", api: "Да", integrations: "Visa, Mastercard", rating: 6.5, url: "https://ecolytiq.com" },
+            { id: 104, name: "Sweep", type: "Платформа", category: "Экология и устойчивое развитие", developer: "Sweep", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Корпоративная экология", audience: "CFO", features: "Автоматизация сбора данных для отчётности", api: "Да", integrations: "—", rating: 6.5, url: "https://sweep.net" },
+            { id: 105, name: "Vizrt", type: "Платформа", category: "Игры и развлечения", developer: "Vizrt", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Win, сервер", application: "Стриминг, Esports", audience: "Стримеры", features: "Виртуальные студии с ИИ-трекингом", api: "Да", integrations: "OBS, Twitch", rating: 7, url: "https://vizrt.com" },
+            { id: 106, name: "Cognitive3D", type: "Сервис", category: "Игры и развлечения", developer: "Cognitive3D", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Геймдев", audience: "Геймдизайнеры", features: "Тепловые карты, ИИ-аналитика действий", api: "Да", integrations: "Unity, Unreal", rating: 6, url: "https://cognitive3d.com" },
+            { id: 107, name: "Sloyd AI", type: "Сервис", category: "Игры и развлечения", developer: "Sloyd", cost: "Бесплатно, Pro — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "3D-печать", audience: "Хобби, образование", features: "Генерация моделей под 3D-принтер", api: "Да", integrations: "—", rating: 6.5, url: "https://sloyd.ai" },
+            { id: 108, name: "Hippocratic AI", type: "Платформа", category: "Игры и развлечения", developer: "Hippocratic AI", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Медицинские симуляции", audience: "Медицинские вузы", features: "Виртуальные пациенты для диагностики", api: "Да", integrations: "—", rating: 6, url: "https://hippocratic.ai" },
+            { id: 109, name: "Character.AI", type: "Сервис / Чат-бот", category: "Игры и развлечения", developer: "Character.AI", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб, iOS, Android", application: "Создание персонажей, ролевые игры", audience: "Все пользователи", features: "Создание персонажей, ролевые игры", api: "Да", integrations: "—", rating: 8.5, url: "https://character.ai" },
+            { id: 110, name: "PhantomBuster", type: "Сервис / Автоматизация", category: "Автоматизация задач и RPA", developer: "PhantomBuster", cost: "Бесплатно (ограниченно), от $27/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Сбор данных, лидогенерация", audience: "SMM, продажи", features: "Парсинг LinkedIn, Instagram, Google Sheets", api: "Да", integrations: "Google Sheets, Slack", rating: 7, url: "https://phantombuster.com" },
+            { id: 111, name: "Automation Edge", type: "Платформа / RPA", category: "Автоматизация задач и RPA", developer: "Automation Edge", cost: "По запросу (дорого), пробный период", availability: "Да (через партнёров)", russianInterface: "Да", platforms: "Win, сервер", application: "Корпоративная автоматизация", audience: "IT-отделы, банки", features: "Гибридный RPA, безопасность", api: "Да", integrations: "SAP, Oracle, Citrix", rating: 7, url: "https://automationedge.com" },
+            { id: 112, name: "UiPath", type: "Платформа / RPA", category: "Автоматизация задач и RPA", developer: "UiPath", cost: "Бесплатно (Community), Enterprise — по запросу", availability: "Да", russianInterface: "Да", platforms: "Win, сервер", application: "Бизнес-автоматизация", audience: "Корпорации, аудиторы", features: "Мощный RPA, обучение, AI Center", api: "Да", integrations: "SAP, Excel, Citrix", rating: 9, url: "https://uipath.com" },
+            { id: 113, name: "TextCortex", type: "Расширение", category: "SEO и маркетинг", developer: "TextCortex", cost: "Бесплатно, Pro — $6.99/мес", availability: "Да", russianInterface: "Нет", platforms: "Chrome, Edge", application: "Письмо, перевод", audience: "Копирайтеры", features: "Исправление грамматики, перевод в один клик", api: "Да", integrations: "Gmail, Notion", rating: 7, url: "https://textcortex.com" },
+            { id: 114, name: "i18n", type: "Инструмент", category: "SEO и маркетинг", developer: "i18n", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Разработка приложений", audience: "Разработчики", features: "Автоматическая замена строк в коде", api: "Нет", integrations: "GitHub, GitLab", rating: 6, url: "https://github.com/i18next" },
+            { id: 115, name: "Chatfuel", type: "Сервис / Чат-боты", category: "SEO и маркетинг", developer: "Chatfuel", cost: "Бесплатно, Pro — $15/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Telegram, Facebook", audience: "Маркетологи", features: "Простой конструктор", api: "Да", integrations: "Facebook, Telegram", rating: 7, url: "https://chatfuel.com" },
+            { id: 116, name: "Reply.io", type: "Сервис / Холодные письма", category: "SEO и маркетинг", developer: "Reply", cost: "Бесплатно (ограниченно), от $130/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Продажи, лидогенерация", audience: "B2B-менеджеры", features: "ИИ-письма, автоследование", api: "Да", integrations: "Gmail, LinkedIn, Salesforce", rating: 7, url: "https://reply.io" },
+            { id: 117, name: "Jenni AI", type: "Сервис / Письма, тексты", category: "SEO и маркетинг", developer: "Jenni AI", cost: "Бесплатно, Pro — $19.99/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, расширение", application: "Копирайтинг, письма", audience: "Копирайтеры, студенты", features: "ИИ-ассистент в браузере", api: "Да", integrations: "—", rating: 7, url: "https://jenni.ai" },
+            { id: 118, name: "Predis.ai", type: "Сервис / Контент для соцсетей", category: "SEO и маркетинг", developer: "Predis", cost: "Бесплатно, Pro — $25/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Instagram, TikTok", audience: "SMM", features: "Генерация постов, аналитика", api: "Да", integrations: "Instagram, TikTok", rating: 7, url: "https://predis.ai" },
+            { id: 119, name: "Jasper (ранее Jarvis)", type: "Сервис / Копирайтинг", category: "SEO и маркетинг", developer: "Jasper", cost: "$39/мес, бесплатно нет", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Маркетинг, копирайтинг", audience: "Копирайтеры, маркетологи", features: "Шаблоны, бренд-голос", api: "Да", integrations: "SurferSEO, Zapier", rating: 7.5, url: "https://jasper.ai" },
+            { id: 120, name: "Copy.ai", type: "Сервис / Копирайтинг", category: "SEO и маркетинг", developer: "Copy.ai", cost: "Бесплатно, Pro — $49/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Реклама, email", audience: "Маркетологи", features: "Быстрые тексты, команды", api: "Да", integrations: "Slack, Google Docs", rating: 7.5, url: "https://copy.ai" },
+            { id: 121, name: "ClickUp AI", type: "Сервис / Управление задачами", category: "Управление задачами и проектами", developer: "ClickUp", cost: "Бесплатно (ограниченно), AI — $5/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, iOS, Android, Win, Mac", application: "Управление проектами", audience: "Менеджеры, команды", features: "ИИ-суммаризация, генерация задач", api: "Да", integrations: "Gmail, Slack, GitHub", rating: 8, url: "https://clickup.com" },
+            { id: 122, name: "Reclaim.ai", type: "Сервис / Календарь", category: "Управление задачами и проектами", developer: "Reclaim", cost: "Бесплатно, Pro — $8/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, Google Calendar", application: "Балансировка времени", audience: "Занятые специалисты", features: "Автоматическое бронирование времени", api: "Да", integrations: "Google Calendar, Slack", rating: 7, url: "https://reclaim.ai" },
+            { id: 123, name: "Glew", type: "Сервис", category: "Анализ данных и BI", developer: "Glew", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Интернет-магазины", audience: "Владельцы магазинов", features: "Прогнозирование спроса", api: "Да", integrations: "Shopify, Magento", rating: 6.5, url: "https://glew.io" },
+            { id: 124, name: "Hex", type: "Платформа", category: "Анализ данных и BI", developer: "Hex", cost: "Бесплатно, Pro — $60/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Анализ данных", audience: "Data Scientists", features: "Jupyter + SQL + визуализация", api: "Да", integrations: "Snowflake, BigQuery", rating: 7, url: "https://hex.tech" },
+            { id: 125, name: "Deepnote", type: "Платформа", category: "Анализ данных и BI", developer: "Deepnote", cost: "Бесплатно, Pro — $8/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Data Science", audience: "Команды", features: "Jupyter-ноутбуки с ИИ", api: "Да", integrations: "Google Drive, GitHub", rating: 7, url: "https://deepnote.com" },
+            { id: 126, name: "Wolfram Alpha", type: "Сервис / Вычисления", category: "Специализированные ИИ", developer: "Wolfram Research", cost: "Бесплатно (ограниченно), Pro — $5/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, приложение", application: "Наука, математика", audience: "Студенты, учёные", features: "Пошаговые решения, аналитика", api: "Да", integrations: "—", rating: 8, url: "https://wolframalpha.com" },
+            { id: 127, name: "Brilliant.org", type: "Платформа / Обучение", category: "Специализированные ИИ", developer: "Brilliant", cost: "$12.50/мес, бесплатно нет", availability: "Да", russianInterface: "Нет", platforms: "Веб, iOS, Android", application: "STEM-образование", audience: "Инженеры, школьники", features: "Интерактивные уроки, ИИ-подсказки", api: "Да", integrations: "—", rating: 7.5, url: "https://brilliant.org" },
+            { id: 128, name: "Inworld AI", type: "Платформа", category: "Игры и развлечения", developer: "Inworld", cost: "Бесплатно, Pro — $99/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, Unity", application: "Игры, метавселенные", audience: "Геймдизайнеры", features: "Персонажи с памятью и эмоциями", api: "Да", integrations: "Unity, Unreal", rating: 8.5, url: "https://inworld.ai" },
+            { id: 129, name: "ImageFX (Google)", type: "Сервис", category: "Генерация изображений", developer: "Google", cost: "Бесплатно (в Gemini)", availability: "Да", russianInterface: "Да", platforms: "Веб", application: "Быстрая генерация", audience: "Пользователи Google", features: "Интеграция с Gemini, простота", api: "в разработке", integrations: "Google Workspace", rating: 7.5, url: "https://imagen.research.google" },
+            { id: 130, name: "Pixlr AI Image Generator", type: "Сервис", category: "Генерация изображений", developer: "Pixlr Inc.", cost: "Бесплатно, Pro — $10/мес", availability: "Да", russianInterface: "Да", platforms: "Веб", application: "Дизайн, редактирование", audience: "Начинающие дизайнеры", features: "Встроенный редактор, фон, эффекты", api: "Да", integrations: "—", rating: 7, url: "https://pixlr.com" },
+            { id: 131, name: "Pictory", type: "Сервис", category: "Видео и анимация", developer: "Pictory", cost: "Бесплатно (3 проекта), от $19/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Контент-маркетинг", audience: "Блогеры, менеджеры", features: "Автоматическая озвучка, субтитры", api: "Да", integrations: "—", rating: 7, url: "https://pictory.ai" },
+            { id: 132, name: "Vidu Studio", type: "Сервис", category: "Видео и анимация", developer: "Deep Blue", cost: "Бесплатно (ограниченно)", availability: "Да", russianInterface: "Да", platforms: "Веб", application: "Контент, обучение", audience: "Контент-мейкеры", features: "Поддержка русского, ИИ-видео", api: "Да", integrations: "—", rating: 6.5, url: "https://vidu.studio" },
+            { id: 133, name: "Mubert", type: "Сервис", category: "Аудио и музыка", developer: "Mubert", cost: "Бесплатно, Pro — $14/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, API", application: "Фоновая музыка, стриминг", audience: "Стримеры, разработчики", features: "Бесшовная генерация, API", api: "Да", integrations: "Twitch, YouTube", rating: 7, url: "https://mubert.com" },
+            { id: 134, name: "Boomy", type: "Сервис", category: "Аудио и музыка", developer: "Boomy", cost: "Бесплатно, Pro — $9.95/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, iOS", application: "Музыкальные хобби", audience: "Новички", features: "Публикация в Spotify, простота", api: "Да", integrations: "Spotify, Apple Music", rating: 7, url: "https://boomy.com" },
+            { id: 135, name: "Resemble AI", type: "Сервис", category: "Аудио и музыка", developer: "Resemble AI", cost: "Бесплатно (ограниченно), от $24/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, API", application: "Контент, игры, колл-центры", audience: "Разработчики, медиа", features: "Клонирование голоса, интерактивные голоса", api: "Да", integrations: "Call centers, Unity", rating: 7, url: "https://resemble.ai" },
+            { id: 136, name: "Lovo.ai", type: "Сервис", category: "Аудио и музыка", developer: "Genny AI", cost: "Бесплатно (3 мин), от $24/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, API", application: "Видео, подкасты, e-learning", audience: "Контент-мейкеры", features: "Поддержка 500+ голосов, эмоции", api: "Да", integrations: "—", rating: 7, url: "https://lovo.ai" },
+            { id: 137, name: "Play.ht", type: "Сервис", category: "Аудио и музыка", developer: "PlayHT", cost: "Бесплатно, Pro — $27/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, API", application: "Подкасты, блоги, видео", audience: "Блогеры, SMM", features: "Натуральные голоса, SSML", api: "Да", integrations: "WordPress, Wix", rating: 7, url: "https://play.ht" },
+            { id: 138, name: "Slidebean", type: "Сервис", category: "Презентации и визуализация", developer: "Slidebean", cost: "Бесплатно, Pro — $19/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Стартапы", audience: "Основатели", features: "Автоматическая вёрстка под инвесторов", api: "Да", integrations: "—", rating: 7, url: "https://slidebean.com" },
+            { id: 139, name: "Prezi AI", type: "Сервис", category: "Презентации и визуализация", developer: "Prezi", cost: "Бесплатно, Pro — $10/мес", availability: "Да", russianInterface: "Да", platforms: "Веб, iOS, Android", application: "Образование, продажи", audience: "Преподаватели", features: "Динамические переходы, карта презентации", api: "Да", integrations: "Zoom, Google Drive", rating: 7.5, url: "https://prezi.com" },
+            { id: 140, name: "Visme", type: "Сервис", category: "Презентации и визуализация", developer: "Visme", cost: "Бесплатно, Pro — $29/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Маркетинг, обучение", audience: "Дизайнеры", features: "Шаблоны, анимация", api: "Да", integrations: "—", rating: 7, url: "https://visme.co" },
+            { id: 141, name: "Kubera", type: "Приложение", category: "Финансовые ИИ-сервисы", developer: "Kubera", cost: "Бесплатно, Pro — $8/мес", availability: "Да", russianInterface: "Нет", platforms: "iOS, Android, веб", application: "Личные финансы", audience: "Инвесторы", features: "Автосбор данных с бирж, NFT, крипты", api: "Нет", integrations: "Coinbase, Binance", rating: 7, url: "https://kubera.com" },
+            { id: 142, name: "Piggy", type: "Приложение", category: "Финансовые ИИ-сервисы", developer: "Piggy", cost: "Бесплатно, Pro — $3/мес", availability: "Да", russianInterface: "Да", platforms: "iOS, Android", application: "Личные финансы", audience: "Все пользователи", features: "ИИ-категоризация трат, прогноз остатка", api: "Нет", integrations: "—", rating: 6.5, url: "https://piggyapp.co" },
+            { id: 143, name: "Ecochain", type: "Сервис", category: "Экология и устойчивое развитие", developer: "Ecochain", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Промышленность", audience: "Инженеры", features: "LCA (Life Cycle Assessment) для продуктов", api: "Да", integrations: "—", rating: 6, url: "https://ecochain.com" },
+            { id: 144, name: "ManyChat", type: "Сервис / Чат-боты", category: "Чат-боты и виртуальные ассистенты", developer: "ManyChat", cost: "Бесплатно, Pro — $15/мес", availability: "Да", russianInterface: "Да", platforms: "Веб", application: "Маркетинг в Telegram, Instagram", audience: "SMM, предприниматели", features: "Автоматизация в соцсетях", api: "Да", integrations: "Instagram, Telegram, Facebook", rating: 8, url: "https://manychat.com" },
+            { id: 145, name: "Finch", type: "Приложение / Виртуальный питомец", category: "Здоровье и фитнес", developer: "Finch App", cost: "Бесплатно (ограниченно), $9.99/мес", availability: "Да", russianInterface: "Нет", platforms: "iOS, Android", application: "Поддержка в одиночестве", audience: "Молодёжь, студенты", features: "Виртуальный питомец, напоминания о заботе о себе", api: "Нет", integrations: "—", rating: 7, url: "https://finchcares.com" },
+            { id: 146, name: "Welltory", type: "Приложение / Анализ стресса", category: "Здоровье и фитнес", developer: "Welltory", cost: "Бесплатно (ограниченно), $9.99/мес", availability: "Да", russianInterface: "Да", platforms: "iOS, Android", application: "Управление стрессом", audience: "Предприниматели, менеджеры", features: "Анализ HRV через камеру, ИИ-рекомендации", api: "Да", integrations: "Apple Health, Oura", rating: 7.5, url: "https://welltory.com" },
+            { id: 147, name: "Rosebud AI", type: "Сервис", category: "Игры и развлечения", developer: "Rosebud AI", cost: "Бесплатно, Pro — $20/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Геймдев", audience: "Сценаристы", features: "Генерация диалогов и поведения NPC", api: "Да", integrations: "—", rating: 6.5, url: "https://rosebud.ai" },
+            { id: 148, name: "Houdini Engine + AI", type: "Инструмент", category: "Игры и развлечения", developer: "SideFX", cost: "Входит в Houdini ($269/мес)", availability: "Да", russianInterface: "Нет", platforms: "Win, Mac, Linux", application: "Визуальные эффекты", audience: "VFX-художники", features: "Генерация ландшафтов, частиц", api: "Да", integrations: "Unreal, Maya", rating: 7.5, url: "https://sidefx.com" },
+            { id: 149, name: "ArtGrid", type: "Библиотека", category: "Игры и развлечения", developer: "ArtGrid", cost: "Бесплатно (ограниченно), Pro — $15/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Готовые 3D-модели с ИИ", audience: "Разработчики", features: "Поиск моделей через текстовый запрос", api: "Нет", integrations: "—", rating: 6.5, url: "https://artgrid.io" },
+            { id: 150, name: "Promethean AI", type: "Сервис", category: "Игры и развлечения", developer: "Promethean AI", cost: "Бесплатно (ограниченно), Pro — $25/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, Unreal Engine", application: "3D-сцены, интерьеры", audience: "3D-художники", features: "Генерация сцен по текстовому описанию", api: "Да", integrations: "Unreal, Blender", rating: 8, url: "https://prometheanai.com" },
+            { id: 151, name: "Kaedim", type: "Сервис", category: "Игры и развлечения", developer: "Kaedim", cost: "Бесплатно, Pro — $20/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "3D-модели из 2D", audience: "3D-художники", features: "Превращение эскизов в 3D-модели", api: "Да", integrations: "Unity, Blender", rating: 7.5, url: "https://kaedim3d.com" },
+            { id: 152, name: "Dora AI", type: "Сервис", category: "Код и веб-дизайн", developer: "Dora Labs", cost: "Бесплатно (ограниченно), Pro — $20/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Веб-сайты, 3D", audience: "Маркетологи, стартапы", features: "Генерация сайтов по тексту, 3D-анимации", api: "Да", integrations: "—", rating: 7, url: "https://dora.ai" },
+            { id: 153, name: "Framer AI", type: "Сервис", category: "Код и веб-дизайн", developer: "Framer", cost: "Бесплатно, Pro — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Веб-сайты", audience: "Предприниматели, дизайнеры", features: "Генерация сайта по промпту", api: "Да", integrations: "—", rating: 8, url: "https://framer.com" },
+            { id: 154, name: "Wix ADI", type: "Сервис", category: "Код и веб-дизайн", developer: "Wix", cost: "Включено в тарифы ($16–35/мес)", availability: "Да", russianInterface: "Да", platforms: "Веб", application: "Лендинги, бизнес-сайты", audience: "Предприниматели, малый бизнес", features: "Быстрое создание сайта", api: "Нет", integrations: "Wix App Market", rating: 7.5, url: "https://wix.com" },
+            { id: 155, name: "Luma AI", type: "Приложение", category: "Игры и развлечения", developer: "Luma AI", cost: "Бесплатно, Pro — $49/мес", availability: "Да", russianInterface: "Нет", platforms: "iOS, веб", application: "3D-сканирование", audience: "Разработчики AR", features: "Создание 3D-моделей через iPhone", api: "Да", integrations: "—", rating: 8, url: "https://lumalabs.ai" },
+            { id: 156, name: "Scenario", type: "Платформа", category: "Игры и развлечения", developer: "Scenario", cost: "Бесплатно, Pro — $19/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Генерация текстур", audience: "Геймдизайнеры", features: "Текстуры по промпту, интеграция с Unity", api: "Да", integrations: "Unity, Unreal", rating: 7, url: "https://scenario.gg" },
+            { id: 157, name: "GameGAN", type: "Инструмент", category: "Игры и развлечения", developer: "NVIDIA", cost: "Бесплатно (research)", availability: "Да", russianInterface: "Нет", platforms: "Python", application: "Генерация уровней", audience: "Исследователи", features: "Обучение на примере существующих игр", api: "Нет", integrations: "PyTorch", rating: 5.5, url: "nv-tlabs.github.io/GameGAN" },
+            { id: 158, name: "Narrative Science", type: "Сервис", category: "Игры и развлечения", developer: "Narrative Science", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Генерация игровых сценариев", audience: "Сценаристы", features: "Автоматическое создание историй", api: "Да", integrations: "—", rating: 6, url: "https://narrativescience.com" },
+            { id: 159, name: "Krisp", type: "Приложение", category: "Аудио и музыка", developer: "Krisp", cost: "Бесплатно, Pro — $8/мес", availability: "Да", russianInterface: "Нет", platforms: "Win, Mac, iOS, Android", application: "Звонки, записи", audience: "Удалённые работники", features: "Отключение шума, эхо-подавление", api: "Да", integrations: "Zoom, Teams", rating: 8, url: "https://krisp.ai" },
+            { id: 160, name: "Tactiq", type: "Расширение", category: "Аудио и музыка", developer: "Tactiq", cost: "Бесплатно, Pro — $8/мес", availability: "Да", russianInterface: "Нет", platforms: "Chrome, Edge", application: "Встречи в Zoom", audience: "Менеджеры", features: "Автосохранение в Google Docs", api: "Нет", integrations: "Zoom", rating: 7, url: "https://tactiq.io" },
+            { id: 161, name: "Flixier", type: "Сервис", category: "Аудио и музыка", developer: "Flixier", cost: "Бесплатно, Pro — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "YouTube, TikTok", audience: "Видеомейкеры", features: "Быстрый монтаж, шаблоны", api: "Да", integrations: "—", rating: 6.5, url: "https://flixier.com" },
+            { id: 162, name: "Speechlogger", type: "Сервис", category: "Аудио и музыка", developer: "Speechlogger", cost: "Бесплатно (2 часа), Pro — $5/мес", availability: "Да", russianInterface: "Да", platforms: "Веб", application: "Переводчики, студенты", audience: "Переводчики", features: "Поддержка русского, экспорт в Word", api: "Нет", integrations: "—", rating: 6.5, url: "https://speechlogger.net" },
+            { id: 163, name: "Replit Ghostwriter", type: "Сервис", category: "Код и веб-дизайн", developer: "Replit", cost: "Включён в Pro ($20/мес)", availability: "Да", russianInterface: "Нет", platforms: "Веб (Replit)", application: "Обучение, разработка", audience: "Студенты, новички", features: "Встроенный в Replit, доступен онлайн", api: "Да", integrations: "Replit", rating: 7.5, url: "https://replit.com" },
+            { id: 164, name: "Codeium", type: "Сервис", category: "Код и веб-дизайн", developer: "Codeium", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "VS Code, JetBrains, IDE", application: "Программирование", audience: "Разработчики", features: "Бесплатная альтернатива Copilot", api: "Да", integrations: "—", rating: 8, url: "https://codeium.com" },
+            { id: 165, name: "Uizard", type: "Сервис", category: "Код и веб-дизайн", developer: "Uizard", cost: "Бесплатно, Pro — $12/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "UI/UX, дизайн", audience: "Дизайнеры", features: "Генерация интерфейсов из скриншотов", api: "Да", integrations: "Figma, React", rating: 7, url: "https://uizard.io" },
+            { id: 166, name: "Kobold AI", type: "Платформа / Локальные модели", category: "Чат-боты и виртуальные ассистенты", developer: "KoboldAI", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Win, Mac, Linux", application: "Творческое письмо", audience: "Писатели", features: "Настройка под романы", api: "Нет", integrations: "—", rating: 7, url: "https://koboldai.net" },
+            { id: 167, name: "Jan", type: "Платформа / Локальные модели", category: "Чат-боты и виртуальные ассистенты", developer: "Jan", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Win, Mac", application: "Приватный ИИ", audience: "Все пользователи", features: "Офлайн-работа, шифрование", api: "Нет", integrations: "—", rating: 6.5, url: "https://jan.ai" },
+            { id: 168, name: "Midjourney", type: "Сервис", category: "Генерация изображений", developer: "Midjourney, Inc.", cost: "От $10/мес, бесплатного нет", availability: "Через Discord (VPN)", russianInterface: "Нет", platforms: "Discord, веб", application: "Арт, дизайн, реклама", audience: "Дизайнеры, художники", features: "Высокое качество, стилизованные изображения", api: "Нет", integrations: "Discord", rating: 9.5, url: "https://midjourney.com" },
+            { id: 169, name: "Suno AI", type: "Сервис", category: "Аудио и музыка", developer: "Suno", cost: "Бесплатно (ограниченно), Pro — $12/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Музыкальные хиты", audience: "Контент-мейкеры", features: "Генерация песен с текстом и вокалом", api: "Да", integrations: "—", rating: 8, url: "https://suno.ai" },
+            { id: 170, name: "Runway ML", type: "Сервис", category: "Видео и анимация", developer: "Runway", cost: "Бесплатно (ограниченно), Pro — $15/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Видео, анимация", audience: "Видеомейкеры", features: "Инструменты для редактирования видео", api: "Да", integrations: "—", rating: 8, url: "https://runwayml.com" },
+            { id: 171, name: "Pika Labs", type: "Сервис", category: "Видео и анимация", developer: "Pika Labs", cost: "Бесплатно (ограниченно), Pro — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Короткие видео", audience: "Контент-мейкеры", features: "Генерация коротких анимационных видео", api: "Да", integrations: "—", rating: 7.5, url: "https://pika.art" },
+            { id: 172, name: "Lumen5", type: "Сервис", category: "Видео и анимация", developer: "Lumen5", cost: "Бесплатно (ограниченно), Pro — $29/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Социальные медиа", audience: "Маркетологи", features: "Автоматическое создание видео", api: "Да", integrations: "—", rating: 7, url: "https://lumen5.com" },
+            { id: 173, name: "Animoto", type: "Сервис", category: "Видео и анимация", developer: "Animoto", cost: "Бесплатно (ограниченно), Pro — $15/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Маркетинг, соцсети", audience: "SMM", features: "Шаблоны для социальных сетей", api: "Да", integrations: "—", rating: 6.5, url: "https://animoto.com" },
+            { id: 174, name: "InVideo", type: "Сервис", category: "Видео и анимация", developer: "InVideo", cost: "Бесплатно (ограниченно), Pro — $20/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "YouTube, реклама", audience: "Видеомейкеры", features: "10000+ шаблонов, текст-в-видео", api: "Да", integrations: "—", rating: 7, url: "https://invideo.io" },
+            { id: 175, name: "Veed.io", type: "Сервис", category: "Видео и анимация", developer: "VEED", cost: "Бесплатно, Pro — $18/мес", availability: "Да", russianInterface: "Да", platforms: "Веб", application: "YouTube, TikTok", audience: "Контент-мейкеры", features: "Автоперевод субтитров", api: "Да", integrations: "—", rating: 7, url: "https://veed.io" },
+            { id: 176, name: "Scite.ai", type: "Сервис / Научные исследования", category: "Специализированные ИИ", developer: "Scite", cost: "По запросу (академические)", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Наука, медицина", audience: "Учёные, исследователи", features: "Проверка цитирований (\"подтверждено/опровергнуто\")", api: "Да", integrations: "—", rating: 7, url: "https://scite.ai" },
+            { id: 177, name: "Consensus", type: "Сервис / Поиск научных данных", category: "Специализированные ИИ", developer: "Consensus", cost: "Бесплатно (ограниченно), Pro — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Наука, принятие решений", audience: "Исследователи, врачи", features: "ИИ-поиск по научным статьям", api: "Да", integrations: "—", rating: 7.5, url: "https://consensus.app" },
+            { id: 178, name: "Elicit", type: "Сервис / Научные исследования", category: "Специализированные ИИ", developer: "Ought", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Исследования", audience: "Исследователи", features: "Поиск научных статей, извлечение данных", api: "Нет", integrations: "—", rating: 7, url: "https://elicit.org" },
+            { id: 179, name: "Iris.ai", type: "Сервис / Научные исследования", category: "Специализированные ИИ", developer: "Iris.ai", cost: "Бесплатно (ограниченно), Pro — $15/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Исследования", audience: "Учёные", features: "Карта исследований, анализ литературы", api: "Да", integrations: "—", rating: 6.5, url: "https://iris.ai" },
+            { id: 180, name: "Dimensions AI", type: "Сервис / Научные исследования", category: "Специализированные ИИ", developer: "Digital Science", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Академические исследования", audience: "Исследователи", features: "Поиск публикаций, аналитика", api: "Да", integrations: "—", rating: 7, url: "https://dimensions.ai" },
+            { id: 181, name: "Connected Papers", type: "Сервис / Научные исследования", category: "Специализированные ИИ", developer: "Connected Papers", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Наука", audience: "Учёные", features: "Визуализация связей между статьями", api: "Нет", integrations: "—", rating: 6.5, url: "https://connectedpapers.com" },
+            { id: 182, name: "Research Rabbit", type: "Сервис / Научные исследования", category: "Специализированные ИИ", developer: "Research Rabbit", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Академические исследования", audience: "Студенты, исследователи", features: "Поиск статей, визуализация связей", api: "Нет", integrations: "—", rating: 6.5, url: "https://researchrabbit.ai" },
+            { id: 183, name: "Semantic Scholar", type: "Сервис / Научные исследования", category: "Специализированные ИИ", developer: "Allen Institute for AI", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Наука", audience: "Исследователи", features: "ИИ-поиск научных статей", api: "Да", integrations: "—", rating: 7, url: "https://semanticscholar.org" },
+            { id: 184, name: "Genei", type: "Сервис / Научные исследования", category: "Специализированные ИИ", developer: "Genei", cost: "Бесплатно (ограниченно), Pro — $9/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Исследования", audience: "Студенты, исследователи", features: "Автоматическое резюмирование статей", api: "Нет", integrations: "—", rating: 6.5, url: "https://genei.io" },
+            { id: 185, name: "Scholarcy", type: "Сервис / Научные исследования", category: "Специализированные ИИ", developer: "Scholarcy", cost: "Бесплатно (ограниченно), Pro — $7/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Исследования", audience: "Студенты, исследователи", features: "Генерация карточек, резюмирование", api: "Нет", integrations: "—", rating: 6, url: "https://scholarcy.com" },
+            { id: 186, name: "Galactica", type: "Модель / Сервис", category: "Специализированные ИИ", developer: "Meta", cost: "Бесплатно (через API)", availability: "Через API", russianInterface: "Нет", platforms: "API", application: "Наука, математика", audience: "Исследователи", features: "Генерация научных текстов, формул", api: "Да", integrations: "—", rating: 6.5, url: "https://galactica.org" },
+            { id: 187, name: "Minerva", type: "Модель / Сервис", category: "Специализированные ИИ", developer: "Google", cost: "Бесплатно (через API)", availability: "Через API", russianInterface: "Нет", platforms: "API", application: "Математика", audience: "Математики", features: "Решение сложных математических задач", api: "Да", integrations: "—", rating: 7, url: "https://minerva.google" },
+            { id: 188, name: "AlphaFold", type: "Сервис", category: "Специализированные ИИ", developer: "DeepMind", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Биология", audience: "Биологи", features: "Предсказание структуры белков", api: "Да", integrations: "—", rating: 8, url: "https://alphafold.ebi.ac.uk" },
+            { id: 189, name: "DeepVariant", type: "Сервис", category: "Специализированные ИИ", developer: "Google", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Генетика", audience: "Генетики", features: "Определение вариантов ДНК", api: "Нет", integrations: "—", rating: 6.5, url: "https://github.com/google/deepvariant" },
+            { id: 190, name: "DeepMind Protein Folding", type: "Сервис", category: "Специализированные ИИ", developer: "DeepMind", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Биология", audience: "Биологи", features: "Предсказание сворачивания белков", api: "Да", integrations: "—", rating: 8, url: "https://deepmind.com/research/case-studies/alphafold" },
+            { id: 191, name: "RoseTTAFold", type: "Сервис", category: "Специализированные ИИ", developer: "University of Washington", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Биология", audience: "Биологи", features: "Предсказание структуры белков", api: "Да", integrations: "—", rating: 7, url: "https://robetta.bakerlab.org" },
+            { id: 192, name: "ESMFold", type: "Сервис", category: "Специализированные ИИ", developer: "Meta", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Биология", audience: "Биологи", features: "Предсказание структуры белков", api: "Да", integrations: "—", rating: 7.5, url: "https://esmatlas.com" },
+            { id: 193, name: "Benchling", type: "Платформа", category: "Специализированные ИИ", developer: "Benchling", cost: "Бесплатно (ограниченно), Pro — по запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Биотехнологии", audience: "Биологи", features: "Управление исследованиями, ИИ-анализ", api: "Да", integrations: "—", rating: 7, url: "https://benchling.com" },
+            { id: 194, name: "Mila", type: "Платформа", category: "Специализированные ИИ", developer: "Mila", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Исследования ИИ", audience: "Исследователи", features: "Библиотеки для глубокого обучения", api: "Нет", integrations: "—", rating: 7, url: "https://mila.quebec" },
+            { id: 195, name: "Hugging Face", type: "Платформа", category: "Специализированные ИИ", developer: "Hugging Face", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб, API", application: "NLP, модели", audience: "Разработчики", features: "Репозиторий моделей, Transformers", api: "Да", integrations: "—", rating: 8, url: "https://huggingface.co" },
+            { id: 196, name: "Weights & Biases", type: "Плат폼а", category: "Специализированные ИИ", developer: "Weights & Biases", cost: "Бесплатно (ограниченно), Pro — $25/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Машинное обучение", audience: "Data Scientists", features: "Отслеживание экспериментов", api: "Да", integrations: "—", rating: 7.5, url: "https://wandb.ai" },
+            { id: 197, name: "Paperspace Gradient", type: "Платформа", category: "Специализированные ИИ", developer: "Paperspace", cost: "Бесплатно (ограниченно), Pro — $8/час", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Облачные вычисления", audience: "Разработчики", features: "Облачный GPU, MLOps", api: "Да", integrations: "—", rating: 7, url: "https://gradient.run" },
+            { id: 198, name: "Comet.ml", type: "Платформа", category: "Специализированные ИИ", developer: "Comet", cost: "Бесплатно (ограниченно), Pro — $50/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Машинное обучение", audience: "Data Scientists", features: "Отслеживание, визуализация", api: "Да", integrations: "—", rating: 7, url: "https://comet.ml" },
+            { id: 199, name: "Neptune.ai", type: "Платформа", category: "Специализированные ИИ", developer: "Neptune", cost: "Бесплатно (ограниченно), Pro — $25/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "MLOps", audience: "Data Scientists", features: "Логирование, метрики", api: "Да", integrations: "—", rating: 6.5, url: "https://neptune.ai" },
+            { id: 200, name: "ClearML", type: "Платформа", category: "Специализированные ИИ", developer: "ClearML", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "MLOps", audience: "Data Scientists", features: "Отслеживание, автоматизация", api: "Нет", integrations: "—", rating: 7, url: "https://clear.ml" },
+            { id: 201, name: "Kaggle", type: "Платформа", category: "Специализированные ИИ", developer: "Google", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Соревнования, данные", audience: "Data Scientists", features: "Датасеты, соревнования", api: "Да", integrations: "—", rating: 8, url: "https://kaggle.com" },
+            { id: 202, name: "Google Colab", type: "Платформа", category: "Специализированные ИИ", developer: "Google", cost: "Бесплатно (ограниченно), Pro — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Программирование", audience: "Разработчики", features: "Jupyter-ноутбуки в облаке", api: "Нет", integrations: "—", rating: 8, url: "https://colab.research.google.com" },
+            { id: 203, name: "Databricks", type: "Платформа", category: "Специализированные ИИ", developer: "Databricks", cost: "Бесплатно (ограниченно), Pro — по запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Аналитика, ML", audience: "Data Engineers", features: "Единая платформа для данных", api: "Да", integrations: "—", rating: 8, url: "https://databricks.com" },
+            { id: 204, name: "DataRobot", type: "Платформа", category: "Специализированные ИИ", developer: "DataRobot", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Автоматическое ML", audience: "Data Scientists", features: "Автоматизация ML процессов", api: "Да", integrations: "—", rating: 7.5, url: "https://datarobot.com" },
+            { id: 205, name: "RapidMiner", type: "Платформа", category: "Специализированные ИИ", developer: "RapidMiner", cost: "Бесплатно (ограниченно), Pro — $2500/год", availability: "Да", russianInterface: "Нет", platforms: "Веб, Win, Mac", application: "Аналитика, ML", audience: "Аналитики", features: "Drag-and-drop интерфейс", api: "Да", integrations: "—", rating: 7, url: "https://rapidminer.com" },
+            { id: 206, name: "KNIME", type: "Платформа", category: "Специализированные ИИ", developer: "KNIME", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "Win, Mac, Linux", application: "Аналитика, ML", audience: "Data Scientists", features: "Визуальное программирование", api: "Нет", integrations: "—", rating: 7, url: "https://knime.com" },
+            { id: 207, name: "Alteryx", type: "Платформа", category: "Специализированные ИИ", developer: "Alteryx", cost: "Бесплатно (ограниченно), Pro — $5150/год", availability: "Да", russianInterface: "Нет", platforms: "Win", application: "Аналитика", audience: "Аналитики", features: "Подготовка и анализ данных", api: "Да", integrations: "—", rating: 7, url: "https://alteryx.com" },
+            { id: 208, name: "Tableau", type: "Платформа", category: "Специализированные ИИ", developer: "Salesforce", cost: "Бесплатно (ограниченно), Pro — $70/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, Win, Mac", application: "Визуализация данных", audience: "Аналитики", features: "Интерактивные дашборды", api: "Да", integrations: "—", rating: 8, url: "https://tableau.com" },
+            { id: 209, name: "Power BI", type: "Платформа", category: "Специализированные ИИ", developer: "Microsoft", cost: "Бесплатно (ограниченно), Pro — $10/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, Win", application: "BI, аналитика", audience: "Аналитики", features: "Интеграция с Microsoft", api: "Да", integrations: "—", rating: 8, url: "https://powerbi.microsoft.com" },
+            { id: 210, name: "Qlik Sense", type: "Платформа", category: "Специализированные ИИ", developer: "Qlik", cost: "Бесплатно (ограниченно), Pro — $30/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, Win", application: "Аналитика", audience: "Аналитики", features: "Ассоциативная модель данных", api: "Да", integrations: "—", rating: 7, url: "https://qlik.com" },
+            { id: 211, name: "Looker", type: "Платформа", category: "Специализированные ИИ", developer: "Google", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "BI, аналитика", audience: "Аналитики", features: "Data modeling, визуализация", api: "Да", integrations: "—", rating: 7.5, url: "https://looker.com" },
+            { id: 212, name: "Mode Analytics", type: "Платформа", category: "Специализированные ИИ", developer: "Mode", cost: "Бесплатно (ограниченно), Pro — $69/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Аналитика", audience: "Data Scientists", features: "SQL, Python, R в облаке", api: "Да", integrations: "—", rating: 7, url: "https://mode.com" },
+            { id: 213, name: "Sisense", type: "Платформа", category: "Специализированные ИИ", developer: "Sisense", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб, Win", application: "BI, аналитика", audience: "Аналитики", features: "Встраиваемая аналитика", api: "Да", integrations: "—", rating: 7.5, url: "https://sisense.com" },
+            { id: 214, name: "ThoughtSpot", type: "Платформа", category: "Специализированные ИИ", developer: "ThoughtSpot", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Поиск по данным", audience: "Аналитики", features: "Поиск по данным на естественном языке", api: "Да", integrations: "—", rating: 7, url: "https://thoughtspot.com" },
+            { id: 215, name: "Domo", type: "Платформа", category: "Специализированные ИИ", developer: "Domo", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "BI, аналитика", audience: "Аналитики", features: "Real-time data, визуализация", api: "Да", integrations: "—", rating: 7, url: "https://domo.com" },
+            { id: 216, name: "Zoho Analytics", type: "Платформа", category: "Специализированные ИИ", developer: "Zoho", cost: "Бесплатно (ограниченно), Pro — $22/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "BI, аналитика", audience: "Аналитики", features: "Интеграция с Zoho", api: "Да", integrations: "—", rating: 6.5, url: "https://zoho.com/analytics" },
+            { id: 217, name: "Microsoft Power Platform", type: "Платформа", category: "Специализированные ИИ", developer: "Microsoft", cost: "Бесплатно (ограниченно), Pro — $20/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Автоматизация, аналитика", audience: "Аналитики", features: "Power BI, Power Apps, Power Automate", api: "Да", integrations: "—", rating: 8, url: "https://powerplatform.microsoft.com" },
+            { id: 218, name: "IBM Watson Studio", type: "Платформа", category: "Специализированные ИИ", developer: "IBM", cost: "Бесплатно (ограниченно), Pro — по запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Data Science", audience: "Data Scientists", features: "Инструменты для ML, DL", api: "Да", integrations: "—", rating: 7, url: "https://ibm.com/cloud/watson-studio" },
+            { id: 219, name: "Amazon SageMaker", type: "Платформа", category: "Специализированные ИИ", developer: "Amazon", cost: "Бесплатно (ограниченно), Pro — по запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "ML, DL", audience: "Data Scientists", features: "Полный цикл ML", api: "Да", integrations: "—", rating: 8, url: "https://aws.amazon.com/sagemaker" },
+            { id: 220, name: "Google AI Platform", type: "Платформа", category: "Специализированные ИИ", developer: "Google", cost: "Бесплатно (ограниченно), Pro — по запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "ML, DL", audience: "Data Scientists", features: "Обучение и развертывание моделей", api: "Да", integrations: "—", rating: 8, url: "https://cloud.google.com/ai-platform" },
+            { id: 221, name: "Azure Machine Learning", type: "Платформа", category: "Специализированные ИИ", developer: "Microsoft", cost: "Бесплатно (ограниченно), Pro — по запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "ML, DL", audience: "Data Scientists", features: "Инструменты для ML", api: "Да", integrations: "—", rating: 8, url: "https://azure.microsoft.com/services/machine-learning" },
+            { id: 222, name: "TensorFlow", type: "Библиотека", category: "Специализированные ИИ", developer: "Google", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "ML, DL", audience: "Разработчики", features: "Библиотека для глубокого обучения", api: "Нет", integrations: "—", rating: 9, url: "https://tensorflow.org" },
+            { id: 223, name: "PyTorch", type: "Библиотека", category: "Специализированные ИИ", developer: "Facebook", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "ML, DL", audience: "Разработчики", features: "Библиотека для глубокого обучения", api: "Нет", integrations: "—", rating: 9, url: "https://pytorch.org" },
+            { id: 224, name: "Keras", type: "Библиотека", category: "Специализированные ИИ", developer: "Google", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "DL", audience: "Разработчики", features: "Высокоуровневый API для TensorFlow", api: "Нет", integrations: "—", rating: 8, url: "https://keras.io" },
+            { id: 225, name: "Scikit-learn", type: "Библиотека", category: "Специализированные ИИ", developer: "Scikit-learn", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "ML", audience: "Data Scientists", features: "Библиотека для машинного обучения", api: "Нет", integrations: "—", rating: 8, url: "https://scikit-learn.org" },
+            { id: 226, name: "XGBoost", type: "Библиотека", category: "Специализированные ИИ", developer: "XGBoost", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "ML", audience: "Data Scientists", features: "Градиентный бустинг", api: "Нет", integrations: "—", rating: 8, url: "https://xgboost.ai" },
+            { id: 227, name: "LightGBM", type: "Библиотека", category: "Специализированные ИИ", developer: "Microsoft", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "ML", audience: "Data Scientists", features: "Градиентный бустинг", api: "Нет", integrations: "—", rating: 7.5, url: "https://github.com/microsoft/LightGBM" },
+            { id: 228, name: "CatBoost", type: "Библиотека", category: "Специализированные ИИ", developer: "Yandex", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "ML", audience: "Data Scientists", features: "Градиентный бустинг", api: "Нет", integrations: "—", rating: 7.5, url: "https://catboost.ai" },
+            { id: 229, name: "OpenCV", type: "Библиотека", category: "Специализированные ИИ", developer: "OpenCV", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Компьютерное зрение", audience: "Разработчики", features: "Библиотека для обработки изображений", api: "Нет", integrations: "—", rating: 8, url: "https://opencv.org" },
+            { id: 230, name: "NLTK", type: "Библиотека", category: "Специализированные ИИ", developer: "NLTK", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "NLP", audience: "Разработчики", features: "Библиотека для обработки естественного языка", api: "Нет", integrations: "—", rating: 7, url: "https://nltk.org" },
+            { id: 231, name: "spaCy", type: "Библиотека", category: "Специализированные ИИ", developer: "Explosion", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "NLP", audience: "Разработчики", features: "Библиотека для обработки естественного языка", api: "Нет", integrations: "—", rating: 7.5, url: "https://spacy.io" },
+            { id: 232, name: "Gensim", type: "Библиотека", category: "Специализированные ИИ", developer: "Gensim", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "NLP", audience: "Разработчики", features: "Библиотека для тематического моделирования", api: "Нет", integrations: "—", rating: 7, url: "https://gensim.org" },
+            { id: 233, name: "FastText", type: "Библиотека", category: "Специализированные ИИ", developer: "Facebook", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "NLP", audience: "Разработчики", features: "Библиотека для представления слов", api: "Нет", integrations: "—", rating: 7, url: "https://fasttext.cc" },
+            { id: 234, name: "Transformers", type: "Библиотека", category: "Специализированные ИИ", developer: "Hugging Face", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "NLP", audience: "Разработчики", features: "Библиотека для трансформеров", api: "Нет", integrations: "—", rating: 8, url: "https://github.com/huggingface/transformers" },
+            { id: 235, name: "AllenNLP", type: "Библиотека", category: "Специализированные ИИ", developer: "Allen Institute for AI", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "NLP", audience: "Разработчики", features: "Библиотека для NLP исследований", api: "Нет", integrations: "—", rating: 7, url: "https://allennlp.org" },
+            { id: 236, name: "Flair", type: "Библиотека", category: "Специализированные ИИ", developer: "Zalando", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "NLP", audience: "Разработчики", features: "Библиотека для NLP", api: "Нет", integrations: "—", rating: 6.5, url: "https://github.com/flairNLP/flair" },
+            { id: 237, name: "Stanford CoreNLP", type: "Библиотека", category: "Специализированные ИИ", developer: "Stanford", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "NLP", audience: "Разработчики", features: "Набор инструментов для NLP", api: "Нет", integrations: "—", rating: 7, url: "https://stanfordnlp.github.io/CoreNLP" },
+            { id: 238, name: "Apache MXNet", type: "Библиотека", category: "Специализированные ИИ", developer: "Apache", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "DL", audience: "Разработчики", features: "Библиотека для глубокого обучения", api: "Нет", integrations: "—", rating: 6.5, url: "https://mxnet.apache.org" },
+            { id: 239, name: "Chainer", type: "Библиотека", category: "Специализированные ИИ", developer: "Preferred Networks", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "DL", audience: "Разработчики", features: "Библиотека для глубокого обучения", api: "Нет", integrations: "—", rating: 6, url: "https://chainer.org" },
+            { id: 240, name: "Theano", type: "Библиотека", category: "Специализированные ИИ", developer: "Montreal", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "DL", audience: "Разработчики", features: "Библиотека для глубокого обучения", api: "Нет", integrations: "—", rating: 6, url: "https://theano.readthedocs.io" },
+            { id: 241, name: "Caffe", type: "Библиотека", category: "Специализированные ИИ", developer: "Berkeley", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "DL", audience: "Разработчики", features: "Библиотека для глубокого обучения", api: "Нет", integrations: "—", rating: 6.5, url: "https://caffe.berkeleyvision.org" },
+            { id: 242, name: "Torch", type: "Библиотека", category: "Специализированные ИИ", developer: "Facebook", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "DL", audience: "Разработчики", features: "Библиотека для глубокого обучения", api: "Нет", integrations: "—", rating: 6, url: "https://torch.ch" },
+            { id: 243, name: "CNTK", type: "Библиотека", category: "Специализированные ИИ", developer: "Microsoft", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "DL", audience: "Разработчики", features: "Библиотека для глубокого обучения", api: "Нет", integrations: "—", rating: 6, url: "https://github.com/microsoft/CNTK" },
+            { id: 244, name: "PaddlePaddle", type: "Библиотека", category: "Специализированные ИИ", developer: "Baidu", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "DL", audience: "Разработчики", features: "Библиотека для глубокого обучения", api: "Нет", integrations: "—", rating: 6.5, url: "https://paddlepaddle.org.cn" },
+            { id: 245, name: "JAX", type: "Библиотека", category: "Специализированные ИИ", developer: "Google", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "ML, DL", audience: "Разработчики", features: "Библиотека для численных вычислений", api: "Нет", integrations: "—", rating: 7, url: "https://github.com/google/jax" },
+            { id: 246, name: "Ray", type: "Библиотека", category: "Специализированные ИИ", developer: "UC Berkeley", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Распределенные вычисления", audience: "Разработчики", features: "Библиотека для распределенных вычислений", api: "Нет", integrations: "—", rating: 7, url: "https://ray.io" },
+            { id: 247, name: "Dask", type: "Библиотека", category: "Специализированные ИИ", developer: "Dask", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Распределенные вычисления", audience: "Data Scientists", features: "Параллельные вычисления", api: "Нет", integrations: "—", rating: 7, url: "https://dask.org" },
+            { id: 248, name: "Apache Spark", type: "Библиотека", category: "Специализированные ИИ", developer: "Apache", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Big Data", audience: "Data Engineers", features: "Обработка больших данных", api: "Нет", integrations: "—", rating: 8, url: "https://spark.apache.org" },
+            { id: 249, name: "Apache Flink", type: "Библиотека", category: "Специализированные ИИ", developer: "Apache", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Stream processing", audience: "Data Engineers", features: "Обработка потоковых данных", api: "Нет", integrations: "—", rating: 7, url: "https://flink.apache.org" },
+            { id: 250, name: "Apache Kafka", type: "Библиотека", category: "Специализированные ИИ", developer: "Apache", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Stream processing", audience: "Data Engineers", features: "Платформа для потоковой обработки", api: "Нет", integrations: "—", rating: 8, url: "https://kafka.apache.org" },
+            { id: 251, name: "Apache Storm", type: "Библиотека", category: "Специализированные ИИ", developer: "Apache", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Stream processing", audience: "Data Engineers", features: "Обработка потоковых данных", api: "Нет", integrations: "—", rating: 6.5, url: "https://storm.apache.org" },
+            { id: 252, name: "Apache Beam", type: "Библиотека", category: "Специализированные ИИ", developer: "Apache", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Stream processing", audience: "Data Engineers", features: "Единая модель для потоковой и пакетной обработки", api: "Нет", integrations: "—", rating: 6.5, url: "https://beam.apache.org" },
+            { id: 253, name: "Apache Airflow", type: "Платформа", category: "Специализированные ИИ", developer: "Apache", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Workflow management", audience: "Data Engineers", features: "Планирование и мониторинг workflow", api: "Нет", integrations: "—", rating: 7.5, url: "https://airflow.apache.org" },
+            { id: 254, name: "Luigi", type: "Библиотека", category: "Специализированные ИИ", developer: "Spotify", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Workflow management", audience: "Data Engineers", features: "Создание сложных pipelines", api: "Нет", integrations: "—", rating: 6.5, url: "https://github.com/spotify/luigi" },
+            { id: 255, name: "Prefect", type: "Платформа", category: "Специализированные ИИ", developer: "Prefect", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Workflow management", audience: "Data Engineers", features: "Современная платформа для workflow", api: "Нет", integrations: "—", rating: 7, url: "https://prefect.io" },
+            { id: 256, name: "Kubeflow", type: "Платформа", category: "Специализированные ИИ", developer: "Google", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "ML pipelines", audience: "Data Scientists", features: "ML на Kubernetes", api: "Нет", integrations: "—", rating: 7, url: "https://kubeflow.org" },
+            { id: 257, name: "MLflow", type: "Платформа", category: "Специализированные ИИ", developer: "Databricks", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "ML lifecycle", audience: "Data Scientists", features: "Управление жизненным циклом ML", api: "Нет", integrations: "—", rating: 7.5, url: "https://mlflow.org" },
+            { id: 258, name: "TFX", type: "Платформа", category: "Специализированные ИИ", developer: "Google", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "ML pipelines", audience: "Data Scientists", features: "End-to-end ML platform", api: "Нет", integrations: "—", rating: 7, url: "https://tensorflow.org/tfx" },
+            { id: 259, name: "Metaflow", type: "Платформа", category: "Специализированные ИИ", developer: "Netflix", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "ML workflows", audience: "Data Scientists", features: "Платформа для создания ML workflows", api: "Нет", integrations: "—", rating: 7, url: "https://metaflow.org" },
+            { id: 260, name: "Feast", type: "Платформа", category: "Специализированные ИИ", developer: "Feast", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Feature store", audience: "Data Scientists", features: "Хранилище признаков для ML", api: "Нет", integrations: "—", rating: 6.5, url: "https://feast.dev" },
+            { id: 261, name: "Tecton", type: "Платформа", category: "Специализированные ИИ", developer: "Tecton", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Feature store", audience: "Data Scientists", features: "Enterprise feature store", api: "Да", integrations: "—", rating: 7, url: "https://tecton.ai" },
+            { id: 262, name: "Hopsworks", type: "Платформа", category: "Специализированные ИИ", developer: "Logical Clocks", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Feature store", audience: "Data Scientists", features: "Feature store и MLOps", api: "Нет", integrations: "—", rating: 6.5, url: "https://hopsworks.ai" },
+            { id: 263, name: "Streamlit", type: "Библиотека", category: "Специализированные ИИ", developer: "Streamlit", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Data apps", audience: "Data Scientists", features: "Создание веб-приложений для данных", api: "Нет", integrations: "—", rating: 8, url: "https://streamlit.io" },
+            { id: 264, name: "Dash", type: "Библиотека", category: "Специализированные ИИ", developer: "Plotly", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Data apps", audience: "Data Scientists", features: "Создание интерактивных веб-приложений", api: "Нет", integrations: "—", rating: 7.5, url: "https://plotly.com/dash" },
+            { id: 265, name: "Gradio", type: "Библиотека", category: "Специализированные ИИ", developer: "Gradio", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "ML demos", audience: "Data Scientists", features: "Создание интерфейсов для ML моделей", api: "Нет", integrations: "—", rating: 7, url: "https://gradio.app" },
+            { id: 266, name: "FastAPI", type: "Библиотека", category: "Специализированные ИИ", developer: "FastAPI", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "API development", audience: "Разработчики", features: "Быстрый фреймворк для API", api: "Нет", integrations: "—", rating: 8, url: "https://fastapi.tiangolo.com" },
+            { id: 267, name: "Flask", type: "Библиотека", category: "Специализированные ИИ", developer: "Flask", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Web development", audience: "Разработчики", features: "Микрофреймворк для веб-приложений", api: "Нет", integrations: "—", rating: 8, url: "https://flask.palletsprojects.com" },
+            { id: 268, name: "Django", type: "Библиотека", category: "Специализированные ИИ", developer: "Django", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Web development", audience: "Разработчики", features: "Фреймворк для веб-приложений", api: "Нет", integrations: "—", rating: 8, url: "https://djangoproject.com" },
+            { id: 269, name: "Spring Boot", type: "Фреймворк", category: "Специализированные ИИ", developer: "VMware", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Backend development", audience: "Разработчики", features: "Фреймворк для Java приложений", api: "Нет", integrations: "—", rating: 8, url: "https://spring.io/projects/spring-boot" },
+            { id: 270, name: "Express.js", type: "Фреймворк", category: "Специализированные ИИ", developer: "Node.js", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Backend development", audience: "Разработчики", features: "Фреймворк для Node.js", api: "Нет", integrations: "—", rating: 8, url: "https://expressjs.com" },
+            { id: 271, name: "Ruby on Rails", type: "Фреймворк", category: "Специализированные ИИ", developer: "Rails", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Web development", audience: "Разработчики", features: "Фреймворк для Ruby", api: "Нет", integrations: "—", rating: 7.5, url: "https://rubyonrails.org" },
+            { id: 272, name: "Laravel", type: "Фреймворк", category: "Специализированные ИИ", developer: "Laravel", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Web development", audience: "Разработчики", features: "Фреймворк для PHP", api: "Нет", integrations: "—", rating: 7.5, url: "https://laravel.com" },
+            { id: 273, name: "Symfony", type: "Фреймворк", category: "Специализированные ИИ", developer: "Symfony", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Web development", audience: "Разработчики", features: "Фреймворк для PHP", api: "Нет", integrations: "—", rating: 7, url: "https://symfony.com" },
+            { id: 274, name: "ASP.NET Core", type: "Фреймворк", category: "Специализированные ИИ", developer: "Microsoft", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Web development", audience: "Разработчики", features: "Фреймворк для .NET", api: "Нет", integrations: "—", rating: 8, url: "https://dotnet.microsoft.com/apps/aspnet" },
+            { id: 275, name: "Next.js", type: "Фреймворк", category: "Специализированные ИИ", developer: "Vercel", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Web development", audience: "Разработчики", features: "React фреймворк", api: "Нет", integrations: "—", rating: 8, url: "https://nextjs.org" },
+            { id: 276, name: "Nuxt.js", type: "Фреймворк", category: "Специализированные ИИ", developer: "Nuxt.js", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Web development", audience: "Разработчики", features: "Vue.js фреймворк", api: "Нет", integrations: "—", rating: 7.5, url: "https://nuxtjs.org" },
+            { id: 277, name: "SvelteKit", type: "Фреймворк", category: "Специализированные ИИ", developer: "Svelte", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Web development", audience: "Разработчики", features: "Svelte фреймворк", api: "Нет", integrations: "—", rating: 7, url: "https://kit.svelte.dev" },
+            { id: 278, name: "Gatsby", type: "Фреймворк", category: "Специализированные ИИ", developer: "Gatsby", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Web development", audience: "Разработчики", features: "React фреймворк для статических сайтов", api: "Нет", integrations: "—", rating: 7, url: "https://gatsbyjs.com" },
+            { id: 279, name: "Hugo", type: "Генератор", category: "Специализированные ИИ", developer: "Hugo", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Static sites", audience: "Разработчики", features: "Быстрый генератор статических сайтов", api: "Нет", integrations: "—", rating: 7.5, url: "https://gohugo.io" },
+            { id: 280, name: "Jekyll", type: "Генератор", category: "Специализированные ИИ", developer: "Jekyll", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Static sites", audience: "Разработчики", features: "Генератор статических сайтов", api: "Нет", integrations: "—", rating: 7, url: "https://jekyllrb.com" },
+            { id: 281, name: "Eleventy", type: "Генератор", category: "Специализированные ИИ", developer: "Eleventy", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Static sites", audience: "Разработчики", features: "Простой генератор статических сайтов", api: "Нет", integrations: "—", rating: 6.5, url: "https://11ty.dev" },
+            { id: 282, name: "Gridsome", type: "Фреймворк", category: "Специализированные ИИ", developer: "Gridsome", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Static sites", audience: "Разработчики", features: "Vue.js фреймворк для статических сайтов", api: "Нет", integrations: "—", rating: 6.5, url: "https://gridsome.org" },
+            { id: 283, name: "VuePress", type: "Генератор", category: "Специализированные ИИ", developer: "Vue.js", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Documentation", audience: "Разработчики", features: "Генератор документации на Vue.js", api: "Нет", integrations: "—", rating: 7, url: "https://vuepress.vuejs.org" },
+            { id: 284, name: "Docusaurus", type: "Генератор", category: "Специализированные ИИ", developer: "Facebook", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Documentation", audience: "Разработчики", features: "Генератор документации", api: "Нет", integrations: "—", rating: 7, url: "https://docusaurus.io" },
+            { id: 285, name: "GitBook", type: "Платформа", category: "Специализированные ИИ", developer: "GitBook", cost: "Бесплатно (ограниченно), Pro — $9/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Documentation", audience: "Разработчики", features: "Платформа для документации", api: "Да", integrations: "—", rating: 7, url: "https://gitbook.com" },
+            { id: 286, name: "Read the Docs", type: "Платформа", category: "Специализированные ИИ", developer: "Read the Docs", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Documentation", audience: "Разработчики", features: "Хостинг документации", api: "Нет", integrations: "—", rating: 7, url: "https://readthedocs.org" },
+            { id: 287, name: "Swagger", type: "Платформа", category: "Специализированные ИИ", developer: "SmartBear", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "API documentation", audience: "Разработчики", features: "Документирование API", api: "Нет", integrations: "—", rating: 7.5, url: "https://swagger.io" },
+            { id: 288, name: "Postman", type: "Платформа", category: "Специализированные ИИ", developer: "Postman", cost: "Бесплатно (ограниченно), Pro — $12/мес", availability: "Да", russianInterface: "Нет", platforms: "Веб, Win, Mac", application: "API testing", audience: "Разработчики", features: "Тестирование и документирование API", api: "Да", integrations: "—", rating: 8, url: "https://postman.com" },
+            { id: 289, name: "Insomnia", type: "Платформа", category: "Специализированные ИИ", developer: "Insomnia", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "API testing", audience: "Разработчики", features: "Тестирование API", api: "Нет", integrations: "—", rating: 7, url: "https://insomnia.rest" },
+            { id: 290, name: "Paw", type: "Платформа", category: "Специализированные ИИ", developer: "Paw", cost: "$49.99 (навсегда)", availability: "Да", russianInterface: "Нет", platforms: "Mac", application: "API testing", audience: "Разработчики", features: "Тестирование API для Mac", api: "Нет", integrations: "—", rating: 7, url: "https://paw.cloud" },
+            { id: 291, name: "Charles Proxy", type: "Платформа", category: "Специализированные ИИ", developer: "Charles", cost: "Бесплатно (ограниченно), Pro — $50 (навсегда)", availability: "Да", russianInterface: "Нет", platforms: "Win, Mac, Linux", application: "Web debugging", audience: "Разработчики", features: "HTTP proxy для отладки", api: "Нет", integrations: "—", rating: 7.5, url: "https://charlesproxy.com" },
+            { id: 292, name: "Fiddler", type: "Платформа", category: "Специализированные ИИ", developer: "Telerik", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Win", application: "Web debugging", audience: "Разработчики", features: "HTTP отладчик", api: "Нет", integrations: "—", rating: 7, url: "https://telerik.com/fiddler" },
+            { id: 293, name: "Wireshark", type: "Платформа", category: "Специализированные ИИ", developer: "Wireshark", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Network analysis", audience: "Разработчики", features: "Анализ сетевого трафика", api: "Нет", integrations: "—", rating: 8, url: "https://wireshark.org" },
+            { id: 294, name: "Burp Suite", type: "Платформа", category: "Специализированные ИИ", developer: "PortSwigger", cost: "Бесплатно (ограниченно), Pro — $399/год", availability: "Да", russianInterface: "Нет", platforms: "Win, Mac, Linux", application: "Web security", audience: "Security experts", features: "Тестирование безопасности веб-приложений", api: "Нет", integrations: "—", rating: 8, url: "https://portswigger.net/burp" },
+            { id: 295, name: "OWASP ZAP", type: "Платформа", category: "Специализированные ИИ", developer: "OWASP", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Web security", audience: "Security experts", features: "Автоматическое тестирование безопасности", api: "Нет", integrations: "—", rating: 7.5, url: "https://owasp.org/www-project-zap" },
+            { id: 296, name: "Nessus", type: "Платформа", category: "Специализированные ИИ", developer: "Tenable", cost: "Бесплатно (ограниченно), Pro — по запросу", availability: "Да", russianInterface: "Нет", platforms: "Win, Mac, Linux", application: "Vulnerability scanning", audience: "Security experts", features: "Сканирование уязвимостей", api: "Нет", integrations: "—", rating: 8, url: "https://tenable.com/products/nessus" },
+            { id: 297, name: "Nmap", type: "Платформа", category: "Специализированные ИИ", developer: "Nmap", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Network discovery", audience: "Security experts", features: "Сканирование сетей", api: "Нет", integrations: "—", rating: 8, url: "https://nmap.org" },
+            { id: 298, name: "Metasploit", type: "Платформа", category: "Специализированные ИИ", developer: "Rapid7", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Penetration testing", audience: "Security experts", features: "Фреймворк для пентестинга", api: "Нет", integrations: "—", rating: 8, url: "https://metasploit.com" },
+            { id: 299, name: "Kali Linux", type: "ОС", category: "Специализированные ИИ", developer: "Kali Linux", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Penetration testing", audience: "Security experts", features: "Дистрибутив для пентестинга", api: "Нет", integrations: "—", rating: 8, url: "https://kali.org" },
+            { id: 300, name: "Parrot Security OS", type: "ОС", category: "Специализированные ИИ", developer: "Parrot", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Security", audience: "Security experts", features: "Дистрибутив для безопасности", api: "Нет", integrations: "—", rating: 7, url: "https://parrotlinux.org" },
+            { id: 301, name: "BlackArch", type: "ОС", category: "Специализированные ИИ", developer: "BlackArch", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Penetration testing", audience: "Security experts", features: "Дистрибутив для пентестинга", api: "Нет", integrations: "—", rating: 6.5, url: "https://blackarch.org" },
+            { id: 302, name: "Ubuntu", type: "ОС", category: "Специализированные ИИ", developer: "Canonical", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "General purpose", audience: "Все пользователи", features: "Популярный Linux дистрибутив", api: "Нет", integrations: "—", rating: 8, url: "https://ubuntu.com" },
+            { id: 303, name: "Debian", type: "ОС", category: "Специализированные ИИ", developer: "Debian", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "General purpose", audience: "Все пользователи", features: "Стабильный Linux дистрибутив", api: "Нет", integrations: "—", rating: 7.5, url: "https://debian.org" },
+            { id: 304, name: "CentOS", type: "ОС", category: "Специализированные ИИ", developer: "Red Hat", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Servers", audience: "Системные администраторы", features: "Дистрибутив для серверов", api: "Нет", integrations: "—", rating: 7.5, url: "https://centos.org" },
+            { id: 305, name: "Red Hat Enterprise Linux", type: "ОС", category: "Специализированные ИИ", developer: "Red Hat", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Enterprise", audience: "Системные администраторы", features: "Корпоративный Linux дистрибутив", api: "Нет", integrations: "—", rating: 8, url: "https://redhat.com/rhel" },
+            { id: 306, name: "SUSE Linux Enterprise", type: "ОС", category: "Специализированные ИИ", developer: "SUSE", cost: "По запросу", availability: "Да", russianInterface: "Нет", platforms: "Веб", application: "Enterprise", audience: "Системные администраторы", features: "Корпоративный Linux дистрибутив", api: "Нет", integrations: "—", rating: 7.5, url: "https://suse.com/products/server" },
+            { id: 307, name: "Fedora", type: "ОС", category: "Специализированные ИИ", developer: "Red Hat", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "General purpose", audience: "Все пользователи", features: "Инновационный Linux дистрибутив", api: "Нет", integrations: "—", rating: 7, url: "https://getfedora.org" },
+            { id: 308, name: "Arch Linux", type: "ОС", category: "Специализированные ИИ", developer: "Arch Linux", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "General purpose", audience: "Продвинутые пользователи", features: "Легковесный Linux дистрибутив", api: "Нет", integrations: "—", rating: 7, url: "https://archlinux.org" },
+            { id: 309, name: "Manjaro", type: "ОС", category: "Специализированные ИИ", developer: "Manjaro", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "General purpose", audience: "Все пользователи", features: "Дружелюбный Arch-based дистрибутив", api: "Нет", integrations: "—", rating: 7, url: "https://manjaro.org" },
+            { id: 310, name: "openSUSE", type: "ОС", category: "Специализированные ИИ", developer: "openSUSE", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "General purpose", audience: "Все пользователи", features: "Linux дистрибутив от сообщества", api: "Нет", integrations: "—", rating: 7, url: "https://opensuse.org" },
+            { id: 311, name: "Alpine Linux", type: "ОС", category: "Специализированные ИИ", developer: "Alpine Linux", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Containers", audience: "DevOps", features: "Легковесный Linux дистрибутив", api: "Нет", integrations: "—", rating: 7, url: "https://alpinelinux.org" },
+            { id: 312, name: "CoreOS", type: "ОС", category: "Специализированные ИИ", developer: "Red Hat", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Containers", audience: "DevOps", features: "Дистрибутив для контейнеров", api: "Нет", integrations: "—", rating: 7, url: "https://coreos.com" },
+            { id: 313, name: "RancherOS", type: "ОС", category: "Специализированные ИИ", developer: "Rancher", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Containers", audience: "DevOps", features: "Дистрибутив для Docker", api: "Нет", integrations: "—", rating: 6.5, url: "https://rancher.com/rancher-os" },
+            { id: 314, name: "Flatcar Container Linux", type: "ОС", category: "Специализированные ИИ", developer: "Kinvolk", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Containers", audience: "DevOps", features: "Дистрибутив для контейнеров", api: "Нет", integrations: "—", rating: 6.5, url: "https://flatcar-linux.org" },
+            { id: 315, name: "Clear Linux", type: "ОС", category: "Специализированные ИИ", developer: "Intel", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Performance", audience: "Разработчики", features: "Высокопроизводительный Linux дистрибутив", api: "Нет", integrations: "—", rating: 6.5, url: "https://clearlinux.org" },
+            { id: 316, name: "NixOS", type: "ОС", category: "Специализированные ИИ", developer: "NixOS", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Reproducible builds", audience: "Разработчики", features: "Дистрибутив с декларативной конфигурацией", api: "Нет", integrations: "—", rating: 7, url: "https://nixos.org" },
+            { id: 317, name: "Guix System", type: "ОС", category: "Специализированные ИИ", developer: "GNU", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Reproducible builds", audience: "Разработчики", features: "Дистрибутив с функциональным управлением пакетами", api: "Нет", integrations: "—", rating: 6, url: "https://guix.gnu.org" },
+            { id: 318, name: "Android", type: "ОС", category: "Специализированные ИИ", developer: "Google", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Mobile", audience: "Все пользователи", features: "Мобильная ОС", api: "Нет", integrations: "—", rating: 9, url: "https://android.com" },
+            { id: 319, name: "iOS", type: "ОС", category: "Специализированные ИИ", developer: "Apple", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "iPhone, iPad", application: "Mobile", audience: "Все пользователи", features: "Мобильная ОС", api: "Нет", integrations: "—", rating: 9, url: "https://apple.com/ios" },
+            { id: 320, name: "Windows", type: "ОС", category: "Специализированные ИИ", developer: "Microsoft", cost: "$199", availability: "Да", russianInterface: "Да", platforms: "PC", application: "General purpose", audience: "Все пользователи", features: "Популярная ОС", api: "Нет", integrations: "—", rating: 8, url: "https://microsoft.com/windows" },
+            { id: 321, name: "macOS", type: "ОС", category: "Специализированные ИИ", developer: "Apple", cost: "Встроена в Mac", availability: "Да", russianInterface: "Нет", platforms: "Mac", application: "General purpose", audience: "Все пользователи", features: "Операционная система от Apple", api: "Нет", integrations: "—", rating: 8, url: "https://apple.com/macos" },
+            { id: 322, name: "Chrome OS", type: "ОС", category: "Специализированные ИИ", developer: "Google", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Chromebook", application: "Web browsing", audience: "Все пользователи", features: "Операционная система на базе Chrome", api: "Нет", integrations: "—", rating: 7, url: "https://google.com/chromebook" },
+            { id: 323, name: "Fuchsia", type: "ОС", category: "Специализированные ИИ", developer: "Google", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "General purpose", audience: "Разработчики", features: "Экспериментальная ОС от Google", api: "Нет", integrations: "—", rating: 6, url: "https://fuchsia.dev" },
+            { id: 324, name: "Tizen", type: "ОС", category: "Специализированные ИИ", developer: "Samsung", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "IoT, mobile", audience: "Разработчики", features: "Операционная система для IoT", api: "Нет", integrations: "—", rating: 6, url: "https://tizen.org" },
+            { id: 325, name: "HarmonyOS", type: "ОС", category: "Специализированные ИИ", developer: "Huawei", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Huawei devices", application: "Mobile, IoT", audience: "Все пользователи", features: "Операционная система от Huawei", api: "Нет", integrations: "—", rating: 6.5, url: "https://developer.harmonyos.com" },
+            { id: 326, name: "watchOS", type: "ОС", category: "Специализированные ИИ", developer: "Apple", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Apple Watch", application: "Wearables", audience: "Все пользователи", features: "Операционная система для часов", api: "Нет", integrations: "—", rating: 7, url: "https://apple.com/watchos" },
+            { id: 327, name: "tvOS", type: "ОС", category: "Специализированные ИИ", developer: "Apple", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Apple TV", application: "Entertainment", audience: "Все пользователи", features: "Операционная система для ТВ", api: "Нет", integrations: "—", rating: 7, url: "https://apple.com/tvos" },
+            { id: 328, name: "Fire OS", type: "ОС", category: "Специализированные ИИ", developer: "Amazon", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Fire devices", application: "Entertainment", audience: "Все пользователи", features: "Операционная система от Amazon", api: "Нет", integrations: "—", rating: 6.5, url: "https://developer.amazon.com/fireos" },
+            { id: 329, name: "KaiOS", type: "ОС", category: "Специализированные ИИ", developer: "KaiOS Technologies", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Feature phones", application: "Mobile", audience: "Все пользователи", features: "Операционная система для кнопочных телефонов", api: "Нет", integrations: "—", rating: 6, url: "https://kaiostech.com" },
+            { id: 330, name: "Sailfish OS", type: "ОС", category: "Специализированные ИИ", developer: "Jolla", cost: "Бесплатно", availability: "Да", russianInterface: "Нет", platforms: "Смартфоны", application: "Mobile", audience: "Все пользователи", features: "Linux-based мобильная ОС", api: "Нет", integrations: "—", rating: 6, url: "https://sailfishos.org" },
+            { id: 331, name: "Ubuntu Touch", type: "ОС", category: "Специализированные ИИ", developer: "UBports", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Mobile", audience: "Все пользователи", features: "Linux-based мобильная ОС", api: "Нет", integrations: "—", rating: 6, url: "https://ubuntu-touch.io" },
+            { id: 332, name: "PostmarketOS", type: "ОС", category: "Специализированные ИИ", developer: "PostmarketOS", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Mobile", audience: "Все пользователи", features: "Linux-based мобильная ОС", api: "Нет", integrations: "—", rating: 5.5, url: "https://postmarketos.org" },
+            { id: 333, name: "GrapheneOS", type: "ОС", category: "Специализированные ИИ", developer: "GrapheneOS", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Security", audience: "Security experts", features: "Защищенная Android-based ОС", api: "Нет", integrations: "—", rating: 7, url: "https://grapheneos.org" },
+            { id: 334, name: "CalyxOS", type: "ОС", category: "Специализированные ИИ", developer: "Calyx Institute", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Privacy", audience: "Все пользователи", features: "Приватная Android-based ОС", api: "Нет", integrations: "—", rating: 6.5, url: "https://calyxos.org" },
+            { id: 335, name: "LineageOS", type: "ОС", category: "Специализированные ИИ", developer: "LineageOS", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Mobile", audience: "Все пользователи", features: "Свободная Android-based ОС", api: "Нет", integrations: "—", rating: 7, url: "https://lineageos.org" },
+            { id: 336, name: "Replicant", type: "ОС", category: "Специализированные ИИ", developer: "Replicant", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Freedom", audience: "Все пользователи", features: "Полностью свободная Android-based ОС", api: "Нет", integrations: "—", rating: 5.5, url: "https://replicant.us" },
+            { id: 337, name: "PureOS", type: "ОС", category: "Специализированные ИИ", developer: "Purism", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Privacy", audience: "Все пользователи", features: "Приватная GNU/Linux ОС", api: "Нет", integrations: "—", rating: 6, url: "https://pureos.net" },
+            { id: 338, name: "Qubes OS", type: "ОС", category: "Специализированные ИИ", developer: "Qubes OS", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Security", audience: "Security experts", features: "Операционная система с высокой степенью безопасности", api: "Нет", integrations: "—", rating: 7.5, url: "https://qubes-os.org" },
+            { id: 339, name: "Subgraph OS", type: "ОС", category: "Специализированные ИИ", developer: "Subgraph", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Security", audience: "Security experts", features: "Защищенная ОС", api: "Нет", integrations: "—", rating: 6, url: "https://subgraph.com" },
+            { id: 340, name: "Tails", type: "ОС", category: "Специализированные ИИ", developer: "Tails", cost: "Бесплатно (open-source)", availability: "Да", russianInterface: "Нет", platforms: "GitHub", application: "Anonymity", audience: "Все пользователи", features: "Операционная система для анонимности", api: "Нет", integrations: "—", rating: 7, url: "https://tails.boum.org" }
+        ];
+
+        // Categories
+        const categories = [
+            "Чат-боты и виртуальные ассистенты",
+            "Генерация изображений",
+            "Аудио и музыка",
+            "Видео и анимация",
+            "Код и веб-дизайн",
+            "Автоматизация задач и RPA",
+            "Управление задачами и проектами",
+            "Анализ данных и BI",
+            "Специализированные ИИ",
+            "SEO и маркетинг",
+            "Транскрибация и распознавание речи",
+            "Работа с таблицами и данными",
+            "Презентации и визуализация",
+            "Медицинские ИИ-сервисы",
+            "Юридические ИИ-сервисы",
+            "Образование и обучение",
+            "Здоровье и фитнес",
+            "Игры и развлечения",
+            "Финансовые ИИ-сервисы",
+            "Экология и устойчивое развитие",
+            "Персональные ИИ-ассистенты"
+        ];
+
+        // State
+        let selectedCategories = [];
+        let currentView = 'grid'; // 'grid' or 'list'
+        let isDarkTheme = false;
+        let filteredServices = [...servicesData];
+
+        // DOM Elements
+        const categoriesContainer = document.getElementById('categories-container');
+        const servicesContainer = document.getElementById('services-container');
+        const searchInput = document.getElementById('search-input');
+        const viewToggle = document.getElementById('view-toggle');
+        const clearFiltersBtn = document.getElementById('clear-filters');
+        const resultsCount = document.getElementById('results-count');
+        const themeToggle = document.getElementById('theme-toggle');
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initCategories();
+            renderServices();
+            setupEventListeners();
+            
+            // Animate logo
+            setTimeout(() => {
+                document.getElementById('header-logo').style.opacity = '1';
+            }, 300);
+        });
+
+        // Initialize categories
+        function initCategories() {
+            categoriesContainer.innerHTML = '';
+            categories.forEach(category => {
+                const btn = document.createElement('button');
+                btn.className = 'category-btn';
+                btn.innerHTML = `
+                    <i class="far fa-circle"></i>
+                    ${category}
+                `;
+                btn.dataset.category = category;
+                btn.addEventListener('click', () => toggleCategory(category));
+                categoriesContainer.appendChild(btn);
+            });
+        }
+
+        // Toggle category selection
+        function toggleCategory(category) {
+            const index = selectedCategories.indexOf(category);
+            if (index === -1) {
+                selectedCategories.push(category);
+            } else {
+                selectedCategories.splice(index, 1);
+            }
+            updateCategoryButtons();
+            filterServices();
+        }
+
+        // Update category button states
+        function updateCategoryButtons() {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                const category = btn.dataset.category;
+                if (selectedCategories.includes(category)) {
+                    btn.classList.add('active');
+                    btn.innerHTML = `
+                        <i class="fas fa-check-circle"></i>
+                        ${category}
+                    `;
+                } else {
+                    btn.classList.remove('active');
+                    btn.innerHTML = `
+                        <i class="far fa-circle"></i>
+                        ${category}
+                    `;
+                }
+            });
+        }
+
+        // Filter services
+        function filterServices() {
+            const searchTerm = searchInput.value.toLowerCase();
+            
+            filteredServices = servicesData.filter(service => {
+                const matchesSearch = 
+                    service.name.toLowerCase().includes(searchTerm) ||
+                    service.application.toLowerCase().includes(searchTerm) ||
+                    service.audience.toLowerCase().includes(searchTerm);
+                
+                const matchesCategory = selectedCategories.length === 0 || 
+                    selectedCategories.includes(service.category);
+                
+                return matchesSearch && matchesCategory;
+            });
+            
+            renderServices();
+        }
+
+        // Render services
+        function renderServices() {
+            servicesContainer.innerHTML = '';
+            resultsCount.textContent = `Найдено: ${filteredServices.length} сервисов`;
+            
+            if (currentView === 'grid') {
+                servicesContainer.className = 'services-grid';
+                filteredServices.forEach((service, index) => {
+                    const card = createServiceCard(service, index);
+                    servicesContainer.appendChild(card);
+                });
+            } else {
+                servicesContainer.className = 'services-list';
+                filteredServices.forEach((service, index) => {
+                    const listItem = createServiceListItem(service, index);
+                    servicesContainer.appendChild(listItem);
+                });
+            }
+            
+            // Animate cards
+            setTimeout(() => {
+                document.querySelectorAll('.service-card, .service-list-item').forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 50);
+                });
+            }, 100);
+        }
+
+        // Create service card
+        function createServiceCard(service, index) {
+            const card = document.createElement('div');
+            card.className = 'service-card hidden';
+            card.style.animationDelay = `${index * 0.05}s`;
+            
+            // Generate random pastel color
+            const hue = Math.floor(Math.random() * 360);
+            const saturation = 70 + Math.floor(Math.random() * 30);
+            const lightness = 85 + Math.floor(Math.random() * 10);
+            const bgColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+            
+            card.innerHTML = `
+                <div class="card-bg" style="background-color: ${bgColor};"></div>
+                <div class="card-content">
+                    <div class="service-header">
+                        <h3 class="service-name">${service.name}</h3>
+                        <div class="service-rating">
+                            ${generateStars(service.rating)}
+                            <span class="rating-value">${service.rating}</span>
+                        </div>
+                    </div>
+                    <div class="service-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-tag"></i>
+                            ${service.category}
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-cube"></i>
+                            ${service.type}
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-building"></i>
+                            ${service.developer}
+                        </div>
+                    </div>
+                    <div class="service-description">
+                        <strong>Для кого:</strong> ${service.audience}
+                    </div>
+                    <div class="service-description">
+                        <strong>Особенности:</strong> ${service.features}
+                    </div>
+                    <div class="service-tags">
+                        ${service.api === "Да" ? '<span class="tag"><i class="fas fa-plug"></i> API</span>' : ''}
+                        ${service.integrations !== '—' ? `<span class="tag"><i class="fas fa-link"></i> ${service.integrations}</span>` : ''}
+                        <span class="tag"><i class="fas fa-desktop"></i> ${service.platforms}</span>
+                    </div>
+                    <a href="${service.url}" target="_blank" class="service-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Перейти к сервису
+                    </a>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Create service list item
+        function createServiceListItem(service, index) {
+            const item = document.createElement('div');
+            item.className = 'service-list-item hidden';
+            item.style.animationDelay = `${index * 0.05}s`;
+            
+            // Generate random pastel color
+            const hue = Math.floor(Math.random() * 360);
+            const saturation = 70 + Math.floor(Math.random() * 30);
+            const lightness = 85 + Math.floor(Math.random() * 10);
+            const bgColor = `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+            
+            item.innerHTML = `
+                <div class="card-bg" style="background-color: ${bgColor};"></div>
+                <div class="list-item-content">
+                    <div class="list-item-header">
+                        <h3 class="service-name">${service.name}</h3>
+                        <div class="service-rating">
+                            ${generateStars(service.rating)}
+                            <span class="rating-value">${service.rating}</span>
+                        </div>
+                    </div>
+                    <div class="list-item-meta">
+                        <div class="meta-item">
+                            <i class="fas fa-tag"></i>
+                            ${service.category}
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-cube"></i>
+                            ${service.type}
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-building"></i>
+                            ${service.developer}
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-desktop"></i>
+                            ${service.platforms}
+                        </div>
+                    </div>
+                    <div class="service-description">
+                        <strong>Для кого:</strong> ${service.audience}
+                    </div>
+                    <div class="service-description">
+                        <strong>Особенности:</strong> ${service.features}
+                    </div>
+                    <div class="service-tags">
+                        ${service.api === "Да" ? '<span class="tag"><i class="fas fa-plug"></i> API</span>' : ''}
+                        ${service.integrations !== '—' ? `<span class="tag"><i class="fas fa-link"></i> ${service.integrations}</span>` : ''}
+                    </div>
+                    <a href="${service.url}" target="_blank" class="service-link">
+                        <i class="fas fa-external-link-alt"></i>
+                        Перейти к сервису
+                    </a>
+                </div>
+            `;
+            
+            return item;
+        }
+
+        // Generate star rating
+        function generateStars(rating) {
+            const fullStars = Math.floor(rating);
+            const hasHalfStar = rating % 1 >= 0.5;
+            let stars = '';
+            
+            for (let i = 0; i < fullStars; i++) {
+                stars += '<i class="fas fa-star rating-star"></i>';
+            }
+            
+            if (hasHalfStar) {
+                stars += '<i class="fas fa-star-half-alt rating-star"></i>';
+            }
+            
+            const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+            for (let i = 0; i < emptyStars; i++) {
+                stars += '<i class="far fa-star rating-star"></i>';
+            }
+            
+            return stars;
+        }
+
+        // Toggle view
+        function toggleView() {
+            currentView = currentView === 'grid' ? 'list' : 'grid';
+            viewToggle.innerHTML = currentView === 'grid' ? 
+                '<i class="fas fa-th-large"></i> <span>Сетка</span>' : 
+                '<i class="fas fa-list"></i> <span>Список</span>';
+            renderServices();
+        }
+
+        // Clear filters
+        function clearFilters() {
+            selectedCategories = [];
+            searchInput.value = '';
+            updateCategoryButtons();
+            filterServices();
+        }
+
+        // Toggle theme
+        function toggleTheme() {
+            isDarkTheme = !isDarkTheme;
+            document.body.classList.toggle('dark-theme', isDarkTheme);
+            themeToggle.innerHTML = isDarkTheme ? 
+                '<i class="fas fa-sun"></i>' : 
+                '<i class="fas fa-moon"></i>';
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            searchInput.addEventListener('input', filterServices);
+            viewToggle.addEventListener('click', toggleView);
+            clearFiltersBtn.addEventListener('click', clearFilters);
+            themeToggle.addEventListener('click', toggleTheme);
+            
+            // Intersection Observer for animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            // Observe cards
+            document.querySelectorAll('.service-card, .service-list-item').forEach(card => {
+                observer.observe(card);
+            });
+        }
+    </script>
+</body>
+</html>
+```
